@@ -24,9 +24,11 @@ requirements 6th homework assignement for the
 * [Source Code](https://github.com/median-man/GifTastic)
 * [Homework Instructions](http://ucsd.bootcampcontent.com/UCSD-Coding-Bootcamp/08-07-2017-UCSD-San-Diego-Class-Repositoy-FSF-FT/blob/master/homework/06-ajax/02-Homework/Instructions/homework.md) (login required)
 * [Giphy API](https://developers.giphy.com/)
+* [jQuery](http://jquery.com/)
 * [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/)
 
 ## Author
 John Desrosiers
 
 ## Acknowledgements
+* (Sekeleton)[http://getskeleton.com/] boilerplate CSS is used in GifTastic.
