@@ -10,15 +10,13 @@ var arrGiphys = [];
 /* Pseudocode
 --------------------------------------------------------------------*/
 
-// render buttons for each topic in arrTopics
-// set a click listener on the buttons in #buttonBox
+// initialize topicButtons
 
 // when a button in #buttonBox is clicked
 // get the topic of the button
-// get 10 static gif images from giphy
-// renderGifs()
-// add a click event listener to the images
-// add a click event listener to #btnAddTopic
+// change status bar to say loading gifs
+// call getGiffs(topic)
+
 
 // when an image is clicked
 // check if the image is static or animated
@@ -29,13 +27,60 @@ var arrGiphys = [];
 
 // when #btnAddTopic is clicked
 	// add topic to arrTopics
-	// get 10 gifs
-	// renderGifs()
+	// renderButtons(arrTopics)
 	// give clicked button a different style from the others
+
+
+/* 	topicButtons object
+	------------------------------------------------------------------
+	properties:
+		-container	html element	container for buttons
+		-topics 	array			topic strings
+	
+	methods:
+		+init			adds click event listener to container
+		+render 		renders a button for each topic in topics
+		+addTopic 		adds topic top topics array
+
+	topicButtons.init method
+	------------------------
+	Initializes properties and sets event listener for button clicks
+		parameters:
+		arrTopics	array	topic strings
+
+		add topics from arrTopics
+		set event listener
+
+	topicButtons.addTopic method
+	----------------------------
+	Adds topic or topics to topicButtons object
+		parameters:
+		topics 	array || string 	string or array of strings
+
+
+		// if topics is a string
+			// this.topics.push(topic)
+		// else
+			// join topics and this.topics
+		// render topic buttons
+
+	topicButtons.render method
+	--------------------------
+	Renders the topic buttons
+
+		// clear #buttonBox
+			// for each topic in arrTopics
+				// add a new button element to #buttonBox
+					// ex. html: <button class="u-full-width">One</button>
+				// add data-topic to the button
+
+*/
+
+
 
 /*	getGifs function
 	----------------
-	paremters:
+	parameters:
 		topic 	string	topic to search for
 
 	giphy api search endpoint doc:
@@ -50,13 +95,12 @@ var arrGiphys = [];
 		parameter
 	when response is received
 	renderGifs(response)
-
 */
 
 /* 	renderGifs function
 	-------------------
 	parameters:
-		response 	object	response from giphy api
+		data 	object	response from giphy api
 
 	view example response: https://developers.giphy.com/docs/#sample-responses
 
@@ -64,12 +108,15 @@ var arrGiphys = [];
 	https://developers.giphy.com/docs/#schema-definitions
 
 	clear #giffery
-	add each object to #giffery
-	example html:
-		<figure>
-			<img src="https://media3.giphy.com/media/3o7TKxJRKk8uPOOdgY/200w.gif" alt="">
-			<figcaption class="rating">Rating: PG</figcaption>
-	    </figure>
+	add html for object to #giffery
+		example html:
+			<figure>
+				<img src="https://media3.giphy.com/media/3o7TKxJRKk8uPOOdgY/200w.gif" alt="">
+				<figcaption class="rating">Rating: PG</figcaption>
+		    </figure>
+    // add a click event listener to the images
+    // clear loading message from status bar
+	
 */
 
 /* end pseudocode
