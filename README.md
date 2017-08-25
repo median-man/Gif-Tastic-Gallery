@@ -31,4 +31,4 @@ requirements 6th homework assignement for the
 John Desrosiers
 
 ## Acknowledgements
-* (Sekeleton)[http://getskeleton.com/] boilerplate CSS is used in GifTastic.
+* [Sekeleton](http://getskeleton.com/) boilerplate CSS is used in GifTastic.
