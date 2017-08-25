@@ -4,7 +4,7 @@
 
 
   <meta charset="utf-8">
-  <title>Giftastic Gallery</title>
+  <title>GifTastic Gallery</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -30,11 +30,12 @@
     <header>
     	<div class="row">	
     	  <div class="twelve columns">
-    	    <h1>Giftastic Gallery</h1>
+    	    <h1>GifTastic Gallery</h1>
+          <hr>
     	  </div>
     	</div>
     	<div class="row">
-    		<div class="eight columns">
+    		<div class="nine columns">
     			<div id="gallery">
     				<img src="https://media3.giphy.com/media/3o7TKxJRKk8uPOOdgY/200w.gif" alt="">
     				<img src="https://media3.giphy.com/media/3o7TKxJRKk8uPOOdgY/200w.gif" alt="">
@@ -48,8 +49,21 @@
     				<img src="https://media3.giphy.com/media/3o7TKxJRKk8uPOOdgY/200w.gif" alt="">
     			</div>
     		</div>
-    		<div class="four columns">
-    			<div id="btn-bin">
+    		<div class="three columns">
+        <hr class="hide medium">
+
+          <!-- add topic form -->
+          <form>
+            <!-- <h4>Add a new topic</h4> -->
+            <label for="txtAddTopic">Add a topic</label>
+            <input type="text" class="u-full-width" placeholder="fails"
+                   id="txtAddTopic">
+             <button class="button-primary u-full-width" type="submit">Add</button>
+          </form>
+          <hr>
+
+          <!-- button column -->
+    			<div id="buttonBox">
     				<button class="u-full-width">One</button>
     				<button class="u-full-width">Two</button>
     				<button class="u-full-width">Three</button>
