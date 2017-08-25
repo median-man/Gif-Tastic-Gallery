@@ -17,7 +17,7 @@ order for GifTastic to work.
 ## Educational Purpose
 I'm building this app to learn about and gain experience with jQuery's
 AJAX features. This application is designed to satisfy the 
-requirements 6th homework assignement for the 
+requirements of the 6th homework assignement for the 
 [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/).
 
 ## Links
