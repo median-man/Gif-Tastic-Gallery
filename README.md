@@ -14,13 +14,18 @@ web browser. GifTastic uses the [Giphy API](https://developers.giphy.com/)
 to retrieve the gif files. You must be connected to the internet in
 order for GifTastic to work.
 
+## To Do
+* fix giffery layout. figures should be inline block.
+
 ## Educational Purpose
+
 I'm building this app to learn about and gain experience with jQuery's
 AJAX features. This application is designed to satisfy the 
 requirements of the 6th homework assignement for the 
 [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/).
 
 ## Links
+
 * [Source Code](https://github.com/median-man/GifTastic)
 * [Homework Instructions](http://ucsd.bootcampcontent.com/UCSD-Coding-Bootcamp/08-07-2017-UCSD-San-Diego-Class-Repositoy-FSF-FT/blob/master/homework/06-ajax/02-Homework/Instructions/homework.md) (login required)
 * [Giphy API](https://developers.giphy.com/)
