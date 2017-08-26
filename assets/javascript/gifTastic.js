@@ -1,6 +1,9 @@
 // starting topics must be lower case
 var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
 
+// store current topic
+var currentTopic;
+
 $(document).ready( function() {
 
 	// image state enumeration
@@ -9,6 +12,7 @@ $(document).ready( function() {
 		animated: "animated"
 	};
 
+	// display topic buttons
 	renderButtons();
 
 	// listen for click on #buttonBox
@@ -86,14 +90,8 @@ $(document).ready( function() {
 	function handleTopicSelection(event) {
 	// Sends request to giphy api for gifs
 
-
 		var queryURL = "https://api.giphy.com/v1/gifs/search?";
 		var topic = $(event.target).attr("data-topic");
-
-		// update the style of selected topic button
-		$("#buttonBox").children().removeClass("button-primary");
-		$(event.target).addClass("button-primary");
-
 
 		// add query parameters to url
 		queryURL += $.param({
@@ -114,18 +112,36 @@ $(document).ready( function() {
 
 			renderGifs(response);
 		});
+
+		// update the style of selected topic button
+		$("#buttonBox").children().removeClass("button-primary");
+		$(event.target).addClass("button-primary");
+
+		// update currentTopic
+		currentTopic = topic;
 	}
 
 	function renderButtons() {
 	// Renders topic buttons from topics array
+
+		var classes;
 
 		// clear buttons
 		$("#buttonBox").empty();
 
 		// add a button to #buttonBox for each topic
 		topics.forEach(function(topic) {
+
+			classes = "u-full-width";
+
+			// style button for current topic
+			if ( topic === currentTopic ) {
+				classes += " button-primary";
+			}
+
+			// creat button and add it to button box
 			$("<button>")
-				.addClass("u-full-width")
+				.addClass(classes)
 				.text(topic)
 				.attr("data-topic", topic)
 				.appendTo("#buttonBox");
@@ -177,4 +193,3 @@ $(document).ready( function() {
 		}
 	}
 });
-
