@@ -4,6 +4,16 @@ header {
 }
 
 /* ------- giffery ------- */
+figure {
+	/*display: inline-block;*/
+	margin-top: 0;
+	margin-left: 0;
+}
+
+figure img {
+	max-width: 100%;
+	cursor: pointer;
+}
 .rating {
 	text-transform: uppercase;
 }
