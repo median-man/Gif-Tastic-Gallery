@@ -3,10 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>GifTastic Gallery</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+
+    <title>Gif-Tastic Gallery</title>
+    <meta name="description" content="Search for Gifs">
+    <meta name="author" content="John Desrosiers">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/skeleton.css">
@@ -24,20 +27,23 @@
             </div>
             <div class="row">
                 <div class="four columns u-pull-right u-cf">
+
                     <!-- add topic form -->
                     <form>
                         <label for="txtAddTopic">Add a topic</label>
-                        <input type="text" class="u-full-width" placeholder="fails" id="txtAddTopic">
+                        <input type="text" class="u-full-width" placeholder="your topic" id="txtAddTopic">
                         <button class="button-primary u-full-width" type="submit" id="btnAddTopic">Add</button>
                     </form>
                     <hr>
+
                     <!-- button column -->
                     <div id="buttonBox">
                     </div>
                 </div>
+
+                <!-- giffery (gif gallery) -->
                 <div class="eight columns">
                 <hr class="hide medium">
-                    <!-- giffery (gif gallery) -->
                     <div id="giffery"></div>
                 </div>
             </div>
