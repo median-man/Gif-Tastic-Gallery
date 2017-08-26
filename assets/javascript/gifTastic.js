@@ -93,9 +93,6 @@ $(document).ready( function() {
 			rating: "pg-13"
 		});
 
-		// change the status bar to loading gifs
-		Window.status = "Loading gifs...";	
-
 		// update data-topic of #giffery
 		$("#giffery").attr("data-topic", topic);
 
