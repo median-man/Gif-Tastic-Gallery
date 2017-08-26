@@ -2,6 +2,9 @@
 
 This document serves as a development To Do list for GifTastic.
 
+## Bugs
+* calls to giphy made on http won't work on GitHub Pages
+
 ## Features and Improvements
 
 ### Layout/Styling
@@ -14,6 +17,7 @@ This document serves as a development To Do list for GifTastic.
 * error handling
 
 ### New Features
+* remember topic when add topic button is clicked
 * scroll to giffery when topic button clicked on vp widths < 550px
 * indicate an image is loading when clicked
 * pre-load animated images when request is returned
