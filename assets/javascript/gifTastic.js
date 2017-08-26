@@ -87,7 +87,7 @@ $(document).ready( function() {
 	// Sends request to giphy api for gifs
 
 
-		var queryURL = "http://api.giphy.com/v1/gifs/search?";
+		var queryURL = "https://api.giphy.com/v1/gifs/search?";
 		var topic = $(event.target).attr("data-topic");
 
 		// update the style of selected topic button
