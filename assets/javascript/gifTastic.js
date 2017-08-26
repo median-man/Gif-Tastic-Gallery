@@ -36,7 +36,7 @@ $(document).ready( function() {
 	// Adds a new topic button
 
 		// Parameters:
-		// 
+		// newTopic - string
 
 		// add topic from the form to beginning of topics array
 		topics.unshift( newTopic );
@@ -77,6 +77,11 @@ $(document).ready( function() {
 		var queryURL = "http://api.giphy.com/v1/gifs/search?";
 		var topic = $(event.target).attr("data-topic");
 
+		// update the style of selected topic button
+		$("#buttonBox").children().removeClass("button-primary");
+		$(event.target).addClass("button-primary");
+
+
 		// add query parameters to url
 		queryURL += $.param({
 			api_key: "f3971dc19c6240feab39b26de85716d1",
@@ -96,6 +101,7 @@ $(document).ready( function() {
 			url: queryURL,
 			method: "GET"
 		}).done(function(response) {
+
 			renderGifs(response);
 		});
 	}
