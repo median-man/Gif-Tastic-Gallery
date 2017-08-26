@@ -14,9 +14,6 @@ web browser. GifTastic uses the [Giphy API](https://developers.giphy.com/)
 to retrieve the gif files. You must be connected to the internet in
 order for GifTastic to work.
 
-## To Do
-* fix giffery layout. figures should be inline block.
-
 ## Educational Purpose
 
 I'm building this app to learn about and gain experience with jQuery's
