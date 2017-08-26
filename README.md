@@ -4,6 +4,8 @@ The repository contains the files for the GifTastic web application.
 GifTastic displays a gallery of gifs (a giffery?) related to a variety
 of topics. Users are able to add additional topics.
 
+See [GifTastic](https://median-man.github.io/GifTastic/) on Github Pages.
+
 
 ## Getting Started
 
@@ -23,7 +25,7 @@ requirements of the 6th homework assignement for the
 [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/).
 
 ## Links
-
+* [GifTastic](https://median-man.github.io/GifTastic/)
 * [Source Code](https://github.com/median-man/GifTastic)
 * [Homework Instructions](http://ucsd.bootcampcontent.com/UCSD-Coding-Bootcamp/08-07-2017-UCSD-San-Diego-Class-Repositoy-FSF-FT/blob/master/homework/06-ajax/02-Homework/Instructions/homework.md) (login required)
 * [Giphy API](https://developers.giphy.com/)
