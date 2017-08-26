@@ -9,7 +9,8 @@ deployed.
 *all done*
 
 ## Javascript
-*all done*
+* clear form input when add button is clicked
+* prevent duplicate topics
 
 ## Misc
 * validate css and html
