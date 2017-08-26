@@ -23,7 +23,14 @@ $(document).ready( function() {
 	$("#buttonBox").on("click", handleTopicSelection);
 
 	// listen for click on #giffery
-	$("#giffery").on("click", toggleImage);
+	$("#giffery").on("click", function(event) {
+
+		// if element clicked is an image
+		if ( event.target.tagName === "IMG" ) {
+			// animate if static. make static if animated.
+			toggleImage(event.target);
+		}
+	});
 
 	// listen for click on #btnAddTopic
 	$("#btnAddTopic").on("click", addTopic)
@@ -36,7 +43,10 @@ $(document).ready( function() {
 
 	function getFigure(images, rating) {
 	// Returns jquery figure element containing an image with rating
-	// Parameters: images object and rating string
+
+		// Parameters: 	
+		// images - object returned from giphy api
+		// rating - string for image rating
 
 		// return a new html figure element
 		return $("<figure>")
@@ -101,6 +111,9 @@ $(document).ready( function() {
 // TODO
 	function toggleImage(img) {
 	// Toggles the state of img--animated/static
+	
+		// Parameters: 	
+		// img: (html img element to toggle)
 
 	// get the clicked image
 	// if the image is static
