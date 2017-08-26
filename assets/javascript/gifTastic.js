@@ -10,15 +10,7 @@ $(document).ready( function() {
 		animated: "animated"
 	};
 
-	// render topic buttons for each topic in topics
-	// adding them to #buttonBox
-	topics.forEach(function(topic) {
-		$("<button>")
-			.addClass("u-full-width")
-			.text(topic)
-			.attr("data-topic", topic)
-			.appendTo("#buttonBox");
-	});
+	renderButtons();
 
 	// listen for click on #buttonBox
 	$("#buttonBox").on("click", handleTopicSelection);
@@ -34,12 +26,23 @@ $(document).ready( function() {
 	});
 
 	// listen for click on #btnAddTopic
-	$("#btnAddTopic").on("click", addTopic)
-
-// TODO
-	function addTopic(event) {
-	// Adds new topic button
+	$("#btnAddTopic").on("click", function(event) { 
 		event.preventDefault();
+		// get the topic from the form and add it to the buttons
+		addTopic($("#txtAddTopic").val());
+	});
+
+	function addTopic(newTopic) {
+	// Adds a new topic button
+
+		// Parameters:
+		// 
+
+		// add topic from the form to beginning of topics array
+		topics.unshift( newTopic );
+
+		// render topic buttons
+		renderButtons();
 	}
 
 	function getFigure(images, rating) {
@@ -94,6 +97,22 @@ $(document).ready( function() {
 			method: "GET"
 		}).done(function(response) {
 			renderGifs(response);
+		});
+	}
+
+	function renderButtons() {
+	// Renders topic buttons from topics array
+
+		// clear buttons
+		$("#buttonBox").empty();
+
+		// add a button to #buttonBox for each topic
+		topics.forEach(function(topic) {
+			$("<button>")
+				.addClass("u-full-width")
+				.text(topic)
+				.attr("data-topic", topic)
+				.appendTo("#buttonBox");
 		});
 	}
 
