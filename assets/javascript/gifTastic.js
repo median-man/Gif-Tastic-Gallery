@@ -1,12 +1,13 @@
 var topics = ["monty python", "star wars", "fails", "cats", "aviation"];
 
 
+
 $(document).ready( function() {
 
 	// image state enumeration
 	var imgState = {
-		still: 0,
-		animated: 1
+		still: "still",
+		animated: "animated"
 	};
 
 	// render topic buttons for each topic in topics
@@ -23,7 +24,7 @@ $(document).ready( function() {
 	$("#buttonBox").on("click", handleTopicSelection);
 
 	// listen for click on #giffery
-	$("#giffery").on("click", function(event) {
+	$("#giffery").on("click", function(event, imgState) {
 
 		// if element clicked is an image
 		if ( event.target.tagName === "IMG" ) {
@@ -56,7 +57,7 @@ $(document).ready( function() {
 				$("<img>").attr( {
 					'src': images.fixed_height_still.url,
 					'data-state': imgState.still,
-					'data-static': images.fixed_height_still.url,
+					'data-still': images.fixed_height_still.url,
 					'data-animate': images.fixed_height.url
 					} ) )
 
@@ -108,20 +109,31 @@ $(document).ready( function() {
 		}					
 	}
 
-// TODO
 	function toggleImage(img) {
 	// Toggles the state of img--animated/static
-	
+
 		// Parameters: 	
-		// img: (html img element to toggle)
+		// img: html img element to toggle
 
-	// get the clicked image
-	// if the image is static
-		// animate the image
-	// if the image is animated
-		// make the img static
+		// get the state of the image
+		var state = $(img).attr("data-state");
+
+		// if the image is static
+		if ( state === imgState.still ) {
+			// animate the image and update state
+			$(img).attr({
+				'src': $(img).attr('data-animate'),
+				'data-state': imgState.animated
+			});			
+
+		// if the image is animated
+		} else if ( state === imgState.animated ) {
+			// make the img static
+			$(img).attr({
+				'src': $(img).attr('data-still'),
+				'data-state': imgState.still
+			});	
+		}
 	}
-	
-
 });
 
