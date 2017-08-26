@@ -1,7 +1,5 @@
 # GifTastic
 
-GifTastic is currently in early development.
-
 The repository contains the files for the GifTastic web application.
 GifTastic displays a gallery of gifs (a giffery?) related to a variety
 of topics. Users are able to add additional topics.
@@ -17,7 +15,7 @@ order for GifTastic to work.
 ## Educational Purpose
 
 I'm building this app to learn about and gain experience with jQuery's
-AJAX features. This application is designed to satisfy the 
+AJAX features. This application is intended to satisfy the 
 requirements of the 6th homework assignement for the 
 [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/).
 
