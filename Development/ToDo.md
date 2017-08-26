@@ -1,25 +1,8 @@
 # To Do List
 
-This document servers as a development To Do list for GifTastic.
+This document serves as a development To Do list for GifTastic.
 
-All items in Future Features section will be added after page is
-deployed.
-
-## Layout & Styling
-*all done*
-
-## Javascript
-* clear form input when add button is clicked
-* prevent duplicate topics
-
-## Misc
-* validate css and html
-* cleanup comments and white space in all files
-* remove unused css from skeleton.css
-* update README & deploy to Github pages
-
-
-## After Deployement
+## Features and Improvements
 
 ### Layout/Styling
 * display a "top of page" link fixed in lower right corner
