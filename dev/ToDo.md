@@ -14,8 +14,7 @@ This document serves as a development To Do list for GifTastic.
 * Refactor image object functions into an object
 * error handling
 
-### New Features
-* remember topic when add topic button is clicked
+### New Features to Add
 * scroll to giffery when topic button clicked on vp widths < 550px
 * indicate an image is loading when clicked
 * pre-load animated images when request is returned
