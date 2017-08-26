@@ -66,17 +66,20 @@ $(document).ready( function() {
 		// images - object returned from giphy api
 		// rating - string for image rating
 
+		var animatedUrl = images.fixed_height.url;
+		var stillUrl = images.fixed_height_still.url;
+
 		// return a new html figure element
 		return $("<figure>")
 
 			// append new image
 			.append(
 				$("<img>").attr( {
-					'src': images.fixed_height_still.url,
+					'src': stillUrl,
 					'alt': $("#giffery").attr("data-topic"),
 					'data-state': imgState.still,
-					'data-still': images.fixed_height_still.url,
-					'data-animate': images.fixed_height.url
+					'data-still': stillUrl,
+					'data-animate': animatedUrl
 				} ))
 
 			// append rating to figure
@@ -149,7 +152,7 @@ $(document).ready( function() {
 	}
 
 	function renderGifs(giphyData) {
-	// Renders images in data
+	// Renders images in data and scrolls to giffery
 
 		var data = giphyData.data;
 		
@@ -163,7 +166,16 @@ $(document).ready( function() {
 			// append figure to the giffery
 			var gifRating = giphyData.data[i].rating;
 			getFigure(data[i].images, gifRating).appendTo("#giffery");
-		}					
+		}
+
+		// scroll window to giffery if page is displayed as a single
+		// column (viewport width < 449px)
+		if ( window.innerWidth < 550 ) {
+		    $('body').animate({
+		        scrollTop: $("#giffery").offset().top
+		    });
+	    }
+				
 	}
 
 	function toggleImage(img) {
@@ -172,22 +184,24 @@ $(document).ready( function() {
 		// Parameters: 	
 		// img: html img element to toggle
 
+		var $img = $(img);
+
 		// get the state of the image
-		var state = $(img).attr("data-state");
+		var state = $img.attr("data-state");
 
 		// if the image is static
 		if ( state === imgState.still ) {
 			// animate the image and update state
-			$(img).attr({
-				'src': $(img).attr('data-animate'),
+			$img.attr({
+				'src': $img.attr('data-animate'),
 				'data-state': imgState.animated
 			});			
 
 		// if the image is animated
 		} else if ( state === imgState.animated ) {
 			// make the img static
-			$(img).attr({
-				'src': $(img).attr('data-still'),
+			$img.attr({
+				'src': $img.attr('data-still'),
 				'data-state': imgState.still
 			});	
 		}
