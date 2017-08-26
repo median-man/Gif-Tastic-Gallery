@@ -1,6 +1,5 @@
+// starting topics must be lower case
 var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
-
-
 
 $(document).ready( function() {
 
@@ -41,6 +40,13 @@ $(document).ready( function() {
 
 		// Parameters:
 		// newTopic - string
+
+		newTopic = newTopic.toLowerCase();
+
+		// do nothing if new topic is already in topics array
+		if ( topics.indexOf(newTopic) > -1 ) {
+			return;
+		}
 
 		// add topic from the form to beginning of topics array
 		topics.unshift( newTopic );
