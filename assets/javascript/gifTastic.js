@@ -1,4 +1,4 @@
-var topics = ["monty python", "star wars", "fails", "cats", "aviation"];
+var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
 
 
 
@@ -56,6 +56,7 @@ $(document).ready( function() {
 			.append(
 				$("<img>").attr( {
 					'src': images.fixed_height_still.url,
+					'alt': $("#giffery").attr("data-topic"),
 					'data-state': imgState.still,
 					'data-still': images.fixed_height_still.url,
 					'data-animate': images.fixed_height.url
@@ -69,18 +70,23 @@ $(document).ready( function() {
 	function handleTopicSelection(event) {
 	// Sends request to giphy api for gifs
 
+
 		var queryURL = "http://api.giphy.com/v1/gifs/search?";
+		var topic = $(event.target).attr("data-topic");
 
 		// add query parameters to url
 		queryURL += $.param({
 			api_key: "f3971dc19c6240feab39b26de85716d1",
-			q: $(event.target).attr("data-topic"),
+			q: topic,
 			limit: 10,
 			rating: "pg-13"
 		});
 
 		// change the status bar to loading gifs
 		Window.status = "Loading gifs...";	
+
+		// update data-topic of #giffery
+		$("#giffery").attr("data-topic", topic);
 
 		//send request
 		$.ajax({
