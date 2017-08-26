@@ -63,11 +63,14 @@ $(document).ready( function() {
 					'data-state': imgState.still,
 					'data-still': images.fixed_height_still.url,
 					'data-animate': images.fixed_height.url
-					} ) )
+				} ))
 
 			// append rating to figure
-			.append($("<figcaption>")
-				.text("Rating: " + rating) );
+			.append( 
+				$("<figcaption>")
+					.html("Rating: <span class='rating'>" + rating 
+						+ "</span>")
+					);
 	}
 
 	function handleTopicSelection(event) {

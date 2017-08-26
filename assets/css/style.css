@@ -3,7 +3,11 @@ header {
 	padding-top: 2em;
 }
 
-/* ------- buttons ------- */
+/* ------- giffery ------- */
+.rating {
+	text-transform: uppercase;
+}
+
 
 /* ------- utilities ------- */
 
