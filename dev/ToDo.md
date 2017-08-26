@@ -3,13 +3,11 @@
 This document serves as a development To Do list for GifTastic.
 
 ## Bugs
-* calls to giphy made on http won't work on GitHub Pages
 
 ## Features and Improvements
 
 ### Layout/Styling
 * display a "top of page" link fixed in lower right corner
-* change placeholder text of form
 * add favicon
 
 ### Code Improvements
@@ -26,3 +24,4 @@ This document serves as a development To Do list for GifTastic.
 * add a 'more' button to the bottom of giffery that fetches 10 more gifs
 * animate image transition between states
 * animate image render
+* add suprise me button that delivers a random gif
