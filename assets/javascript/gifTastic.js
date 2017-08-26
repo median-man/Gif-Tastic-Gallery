@@ -28,8 +28,12 @@ $(document).ready( function() {
 	// listen for click on #btnAddTopic
 	$("#btnAddTopic").on("click", function(event) { 
 		event.preventDefault();
+
 		// get the topic from the form and add it to the buttons
 		addTopic($("#txtAddTopic").val());
+
+		// clear input from form
+		$("#txtAddTopic").val("");
 	});
 
 	function addTopic(newTopic) {
