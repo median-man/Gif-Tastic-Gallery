@@ -9,6 +9,7 @@ $(document).ready( function() {
 		$("<button>")
 			.addClass("u-full-width")
 			.text(topic)
+			.attr("data-topic", topic)
 			.appendTo("#buttonBox");
 	});
 
@@ -26,15 +27,34 @@ $(document).ready( function() {
 		event.preventDefault();
 	}
 
-	function handleTopicSelection() {
+	function handleTopicSelection(event) {
 	// Sends request to giphy api for gifs
 
-	// change the status bar to loading gifs
-	// get the topic of the button
-	// request 10 gifs from giphy api for topic
+		var queryURL = "http://api.giphy.com/v1/gifs/search?";
+
+		// add query parameters to url
+		queryURL += $.param({
+			api_key: "f3971dc19c6240feab39b26de85716d1",
+			q: $(event.target).attr("data-topic"),
+			limit: 10
+		});
+
+		// change the status bar to loading gifs
+		Window.status = "Loading gifs...";	
+
+		console.log(queryURL);
+
+		//send request
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		}).done(function(response) {
+			console.log(data);
+			renderGifs(response.data);
+		});
 	}
 
-	function renderGifs() {
+	function renderGifs(data) {
 	// when a response is received from giphy
 	// clear #giffery
 	// apend images in #giffery for each gif
