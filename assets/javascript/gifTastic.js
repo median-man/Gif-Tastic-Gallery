@@ -45,6 +45,11 @@ $(document).ready( function() {
 		// Parameters:
 		// newTopic - string
 
+		// do nothing if newTopic is blank
+		if ( newTopic.length === 0 ) {
+			return;
+		}
+
 		newTopic = newTopic.toLowerCase();
 
 		// do nothing if new topic is already in topics array
