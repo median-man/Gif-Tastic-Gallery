@@ -160,31 +160,25 @@ $(document).ready( function() {
 
 		var data = giphyData.data;
 		var $giffery = $("#giffery");
-		
-		// clear #giffery
-		$giffery.fadeOut(200, function() {
 
-			// fix the height property of giffery to prevent page 
-			// scrolling and other side effects while images are 
-			// swapped out
-			$giffery.css("height", this.height);
-			$giffery.empty();
+
+		// clear #giffery
+		$giffery.fadeTo(200, 0, function() {			
+			$giffery.empty().css("opacity",1);
 
 			// apend images in #giffery for each gif with image in a
 			// static (as opposed to animated) state
 			for ( var i = 0; i < data.length; i++ ) {
 
-				// append figure to the giffery
+				// append figure to the giffery and fade in the image
 				var gifRating = giphyData.data[i].rating;
-				getFigure(data[i].images, gifRating).appendTo("#giffery");
+				getFigure(data[i].images, gifRating)
+					.hide()
+					.appendTo("#giffery")
+					.css("opacity",0)
+					.fadeTo(800,1);
 			}
-			// wait for images to load in
-			while ( !allImagesLoaded("#giffery") ) { }
-			$giffery.fadeIn(600);
-
-			// remove height to restore responsive behavior
-			$giffery.css("height", "");
-		});	
+		});
 
 		// scroll window to giffery if page is displayed as a single
 		// column (viewport width < 449px)
@@ -224,19 +218,3 @@ $(document).ready( function() {
 		}
 	}
 });
-
-
-function allImagesLoaded(selector = document) {
-// Returns true if all descendant images of the elements
-// returned by the jquery selector are loaded.
-
-	// Paremeters:
-	// selector - optional valid jquery selector
-
-	console.log("allImagesLoaded called");
-	// check each img
-	$(selector).find("img").each(function() {
-		if ( !this.complete ) { return false; }
-	});
-	return true;
-}
