@@ -100,6 +100,11 @@ $(document).ready( function() {
 		var queryURL = "https://api.giphy.com/v1/gifs/search?";
 		var topic = $(event.target).attr("data-topic");
 
+		// stop execution if topic is not a string
+		if ( typeof topic !== 'string' ) {
+			return;
+		}
+
 		// add query parameters to url
 		queryURL += $.param({
 			api_key: "f3971dc19c6240feab39b26de85716d1",
