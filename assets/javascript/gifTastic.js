@@ -159,10 +159,17 @@ $(document).ready( function() {
 	// Renders images in data and scrolls to giffery on small screens
 
 		var data = giphyData.data;
+		var $giffery = $("#giffery");
 		
 		// clear #giffery
-		$("#giffery").fadeOut(200, function() {
+		$giffery.fadeOut(200, function() {
+
+			// temporaritly fix the height property of giffery to
+			// prevent page scrolling and other side effects while
+			// images are swapped out
+			$giffery.css("height", this.height);
 			$(this).empty();
+
 
 			// apend images in #giffery for each gif with image in a
 			// static (as opposed to animated) state
@@ -172,6 +179,8 @@ $(document).ready( function() {
 				var gifRating = giphyData.data[i].rating;
 				getFigure(data[i].images, gifRating).appendTo("#giffery");
 			}
+			// wait for images to load in
+			while ( !allImagesLoaded("#giffery")) { }
 			$(this).fadeIn(600);
 		});	
 
@@ -179,7 +188,7 @@ $(document).ready( function() {
 		// column (viewport width < 449px)
 		if ( window.innerWidth < 550 ) {
 		    $('body').animate({
-		        scrollTop: $("#giffery").offset().top
+		        scrollTop: $giffery.offset().top
 		    });
 	    }			
 	}
