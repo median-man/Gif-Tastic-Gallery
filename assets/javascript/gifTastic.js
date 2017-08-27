@@ -157,7 +157,7 @@ $(document).ready( function() {
 	}
 
 	function renderGifs(giphyData) {
-	// Renders images in data and scrolls to giffery
+	// Renders images in data and scrolls to giffery on small screens
 
 		var data = giphyData.data;
 		
@@ -214,3 +214,16 @@ $(document).ready( function() {
 		}
 	}
 });
+
+
+function allImagesLoaded(selector = document) {
+// Returns true if all descendant images of the elements
+// returned by the jquery selector are loaded.
+
+	// Paremeters:
+	// selector - optional valid jquery selector
+	$(selector).find("img").each(function() {
+		if ( !this.complete ) { return false; }
+	});
+	return true;
+}
