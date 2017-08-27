@@ -364,3 +364,7 @@ figure img {
 .rating {
     text-transform: uppercase;
 }
+
+.gif-container {
+  position: relative;
+}

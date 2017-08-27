@@ -77,16 +77,15 @@ $(document).ready( function() {
 		// return a new html figure element
 		return $("<figure>")
 
-			// append new image
-			.append(
+			// append new image inside a div
+			.append($("<div class='gif-container'>").append(
 				$("<img>").attr( {
 					'src': stillUrl,
 					'alt': $("#giffery").attr("data-topic"),
 					'data-state': imgState.still,
 					'data-still': stillUrl,
 					'data-animate': animatedUrl
-				} ))
-
+				} )))
 			// append rating to figure
 			.append( 
 				$("<figcaption>")
