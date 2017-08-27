@@ -162,16 +162,19 @@ $(document).ready( function() {
 		var data = giphyData.data;
 		
 		// clear #giffery
-		$("#giffery").empty()
+		$("#giffery").fadeOut(200, function() {
+			$(this).empty();
 
-		// apend images in #giffery for each gif with image in a
-		// static (as opposed to animated) state
-		for ( var i = 0; i < data.length; i++ ) {
+			// apend images in #giffery for each gif with image in a
+			// static (as opposed to animated) state
+			for ( var i = 0; i < data.length; i++ ) {
 
-			// append figure to the giffery
-			var gifRating = giphyData.data[i].rating;
-			getFigure(data[i].images, gifRating).appendTo("#giffery");
-		}
+				// append figure to the giffery
+				var gifRating = giphyData.data[i].rating;
+				getFigure(data[i].images, gifRating).appendTo("#giffery");
+			}
+			$(this).fadeIn(600);
+		});	
 
 		// scroll window to giffery if page is displayed as a single
 		// column (viewport width < 449px)
@@ -179,8 +182,7 @@ $(document).ready( function() {
 		    $('body').animate({
 		        scrollTop: $("#giffery").offset().top
 		    });
-	    }
-				
+	    }			
 	}
 
 	function toggleImage(img) {
