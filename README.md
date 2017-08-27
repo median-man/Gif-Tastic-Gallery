@@ -14,9 +14,6 @@ web browser. GifTastic uses the [Giphy API](https://developers.giphy.com/)
 to retrieve the gif files. You must be connected to the internet in
 order for GifTastic to work.
 
-The 'dev' directory contains tools for modifying the application. This
-should be removed for distribution.
-
 ## Educational Purpose
 
 I'm building this app to learn about and gain experience with jQuery's
@@ -37,3 +34,4 @@ John Desrosiers
 
 ## Acknowledgements
 * [Sekeleton](http://getskeleton.com/) boilerplate CSS is used in GifTastic.
+* [Big Smile](http://findicons.com/icon/39186/big_smile) icon by Rokey.
