@@ -56,7 +56,8 @@ var giphy = {
 	topicButtons object
 	------------------------------------------------------------------
 
-	Contains properties and methods for 
+	Contains properties and methods for adding topics and interacting
+	with the topic buttons.
 */
 var topicButtons = {
 	topics: topics,
@@ -121,6 +122,53 @@ var topicButtons = {
 	}
 };
 
+/* 
+	giffery object
+	------------------------------------------------------------------
+
+	Contains properties and methods for displaying and interacting
+	with gifs.
+*/
+var giffery = {
+	// --- properties --- //
+
+	// image states
+	still: 'still',
+	animated: 'animated',
+
+	// --- methods --- //
+	handleClick: function(event) {},
+	newFigure: function(images, rating) {
+	// Returns jquery figure element containing an image with rating
+
+		// Parameters: 	
+		// images - object returned from giphy api
+		// rating - string for image rating
+
+		var animatedUrl = images.fixed_height.url;
+		var stillUrl = images.fixed_height_still.url;
+
+		// return a new html figure element
+		return $("<figure>")
+			// append new image inside a div
+			.append($("<div class='gif-container'>").append(
+				$("<img>").attr( {
+					'src': stillUrl,
+					'alt': $("#giffery").attr("data-topic"),
+					'data-state': this.still,
+					'data-still': stillUrl,
+					'data-animate': animatedUrl
+				} )))
+			// append rating to figure
+			.append( 
+				$("<figcaption>")
+					.html("Rating: <span class='rating'>" + rating 
+						+ "</span>")
+					);
+	},
+	render: function() {},
+	toggleGif: function(img) {}
+};
 
 $(document).ready( function() {
 
@@ -157,38 +205,8 @@ $(document).ready( function() {
 		$("#txtAddTopic").val("");
 	});
 
-	function getFigure(images, rating) {
-	// Returns jquery figure element containing an image with rating
-
-		// Parameters: 	
-		// images - object returned from giphy api
-		// rating - string for image rating
-
-		var animatedUrl = images.fixed_height.url;
-		var stillUrl = images.fixed_height_still.url;
-
-		// return a new html figure element
-		return $("<figure>")
-
-			// append new image inside a div
-			.append($("<div class='gif-container'>").append(
-				$("<img>").attr( {
-					'src': stillUrl,
-					'alt': $("#giffery").attr("data-topic"),
-					'data-state': imgState.still,
-					'data-still': stillUrl,
-					'data-animate': animatedUrl
-				} )))
-			// append rating to figure
-			.append( 
-				$("<figcaption>")
-					.html("Rating: <span class='rating'>" + rating 
-						+ "</span>")
-					);
-	}
-
 	function handleTopicSelection(event) {
-	// Sends request to giphy api for gifs
+	// Sends request to giphy api for gifs and renders them
 
 		// get the topic of the button that was clicked
 		var topic = topicButtons.getBtnTopic(event.target);
@@ -221,7 +239,7 @@ $(document).ready( function() {
 
 				// append figure to the giffery and fade in the image
 				var gifRating = giphyData.data[i].rating;
-				getFigure(data[i].images, gifRating)
+				giffery.newFigure(data[i].images, gifRating)
 					.hide()
 					.appendTo("#giffery")
 					.css("opacity",0)
