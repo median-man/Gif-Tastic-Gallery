@@ -53,6 +53,131 @@ var giphy = {
 	}
 };
 /* 
+	giffery object
+	------------------------------------------------------------------
+
+	Contains properties and methods for displaying and interacting
+	with gifs.
+*/
+var giffery = {
+	// --- properties --- //
+
+	// image states
+	stateStill: 'still',
+	stateAnimated: 'animated',
+
+	gifferyId: "#giffery",
+
+	// --- methods --- //
+
+	handleClick: function(event) {
+	// handles clicks on the #giffery element
+
+		// toggle gif state if an img is clicked
+		if ( event.target.tagName === "IMG" ) {
+			giffery.toggleGif(event.target);
+		}
+	},
+	newFigure: function(images, rating) {
+	// Returns jquery figure element containing an image with rating
+
+		// Parameters: 	
+		// images - object returned from giphy api
+		// rating - string for image rating
+
+		var animatedUrl = images.fixed_height.url;
+		var stillUrl = images.fixed_height_still.url;
+
+		// return a new html figure element
+		return $("<figure>")
+			// append new image inside a div
+			.append($("<div class='gif-container'>").append(
+				$("<img>").attr( {
+					'src': stillUrl,
+					'alt': $("#giffery").attr("data-topic"),
+					'data-state': this.stateStill,
+					'data-still': stillUrl,
+					'data-animate': animatedUrl
+				} )))
+			// append rating to figure
+			.append( 
+				$("<figcaption>")
+					.html("Rating: <span class='rating'>" + rating 
+						+ "</span>")
+					);
+	},
+	render: function(giphyData) {
+	// Renders images in giphyData and scrolls to giffery on small screens
+		// Parameters:
+		// giphyData - object returned by giphy search api
+
+		/*
+		TODO: 
+			Create methods in giphy object for accessing the data
+			in the object returned by the api to decouple the
+			giffery from the giphy api schema. This will make
+			maintaining the app easier if the giphy api is changed
+			in the future.
+		*/
+
+		var data = giphyData.data;
+		var $giffery = $(giffery.gifferyId);
+
+		// clear #giffery
+		$giffery.fadeTo(200, 0, function() {			
+			$giffery.empty().css("opacity",1);
+
+			// apend images in #giffery for each gif with image in a
+			// static (as opposed to animated) state
+			for ( var i = 0; i < data.length; i++ ) {
+				// append figure to the giffery and fade in the image
+				var gifRating = giphyData.data[i].rating;
+				giffery.newFigure(data[i].images, gifRating)
+					.hide()	
+					.appendTo(giffery.gifferyId)
+					.css("opacity",0)
+					.fadeTo(800,1);
+			}
+		});
+
+		// scroll window to giffery if page is displayed as a single
+		// column (viewport width < 449px)
+		if ( window.innerWidth < 550 ) {
+		    $('body').animate({
+		        scrollTop: $giffery.offset().top
+		    });
+	    }
+	},
+	toggleGif: function(img) {
+	// Toggles the state of img--animated/static
+
+		// Parameters: 	
+		// img: html img element to toggle
+
+		var $img = $(img);
+
+		// get the state of the image
+		var state = $img.attr("data-state");
+
+		// if the image is static
+		if ( state === this.stateStill ) {
+			// animate the image and update state
+			$img.attr({
+				'src': $img.attr('data-animate'),
+				'data-state': this.stateAnimated
+			});			
+
+		// if the image is animated
+		} else if ( state === this.stateAnimated ) {
+			// make the img static
+			$img.attr({
+				'src': $img.attr('data-still'),
+				'data-state': this.stateStill
+			});	
+		}
+	}
+};
+/* 
 	topicButtons object
 	------------------------------------------------------------------
 
@@ -119,123 +244,6 @@ var topicButtons = {
 			topicButtons.newButton(topic, topic === currentTopic)
 				.appendTo("#buttonBox");
 		});
-	}
-};
-
-/* 
-	giffery object
-	------------------------------------------------------------------
-
-	Contains properties and methods for displaying and interacting
-	with gifs.
-*/
-var giffery = {
-	// --- properties --- //
-
-	// image states
-	stateStill: 'still',
-	stateAnimated: 'animated',
-
-	gifferyId: "#giffery",
-
-	// --- methods --- //
-
-	handleClick: function(event) {
-	// handles clicks on the #giffery element
-
-		// toggle gif state if an img is clicked
-		if ( event.target.tagName === "IMG" ) {
-			giffery.toggleGif(event.target);
-		}
-	},
-	newFigure: function(images, rating) {
-	// Returns jquery figure element containing an image with rating
-
-		// Parameters: 	
-		// images - object returned from giphy api
-		// rating - string for image rating
-
-		var animatedUrl = images.fixed_height.url;
-		var stillUrl = images.fixed_height_still.url;
-
-		// return a new html figure element
-		return $("<figure>")
-			// append new image inside a div
-			.append($("<div class='gif-container'>").append(
-				$("<img>").attr( {
-					'src': stillUrl,
-					'alt': $("#giffery").attr("data-topic"),
-					'data-state': this.stateStill,
-					'data-still': stillUrl,
-					'data-animate': animatedUrl
-				} )))
-			// append rating to figure
-			.append( 
-				$("<figcaption>")
-					.html("Rating: <span class='rating'>" + rating 
-						+ "</span>")
-					);
-	},
-	render: function(giphyData) {
-	// Renders images in giphyData and scrolls to giffery on small screens
-		// Parameters:
-		// giphyData - object returned by giphy search api
-
-		var data = giphyData.data;
-		var $giffery = $(giffery.gifferyId);
-
-		// clear #giffery
-		$giffery.fadeTo(200, 0, function() {			
-			$giffery.empty().css("opacity",1);
-
-			// apend images in #giffery for each gif with image in a
-			// static (as opposed to animated) state
-			for ( var i = 0; i < data.length; i++ ) {
-				// append figure to the giffery and fade in the image
-				var gifRating = giphyData.data[i].rating;
-				giffery.newFigure(data[i].images, gifRating)
-					.hide()	
-					.appendTo(giffery.gifferyId)
-					.css("opacity",0)
-					.fadeTo(800,1);
-			}
-		});
-
-		// scroll window to giffery if page is displayed as a single
-		// column (viewport width < 449px)
-		if ( window.innerWidth < 550 ) {
-		    $('body').animate({
-		        scrollTop: $giffery.offset().top
-		    });
-	    }
-	},
-	toggleGif: function(img) {
-	// Toggles the state of img--animated/static
-
-		// Parameters: 	
-		// img: html img element to toggle
-
-		var $img = $(img);
-
-		// get the state of the image
-		var state = $img.attr("data-state");
-
-		// if the image is static
-		if ( state === this.stateStill ) {
-			// animate the image and update state
-			$img.attr({
-				'src': $img.attr('data-animate'),
-				'data-state': this.stateAnimated
-			});			
-
-		// if the image is animated
-		} else if ( state === this.stateAnimated ) {
-			// make the img static
-			$img.attr({
-				'src': $img.attr('data-still'),
-				'data-state': this.stateStill
-			});	
-		}
 	}
 };
 
