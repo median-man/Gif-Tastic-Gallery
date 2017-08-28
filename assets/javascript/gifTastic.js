@@ -133,12 +133,13 @@ var giffery = {
 	// --- properties --- //
 
 	// image states
-	still: 'still',
-	animated: 'animated',
+	stateStill: 'still',
+	stateAnimated: 'animated',
 
 	gifferyId: "#giffery",
 
 	// --- methods --- //
+
 	handleClick: function(event) {},
 	newFigure: function(images, rating) {
 	// Returns jquery figure element containing an image with rating
@@ -157,7 +158,7 @@ var giffery = {
 				$("<img>").attr( {
 					'src': stillUrl,
 					'alt': $("#giffery").attr("data-topic"),
-					'data-state': this.still,
+					'data-state': this.stateStill,
 					'data-still': stillUrl,
 					'data-animate': animatedUrl
 				} )))
@@ -201,16 +202,37 @@ var giffery = {
 		    });
 	    }
 	},
-	toggleGif: function(img) {}
+	toggleGif: function(img) {
+	// Toggles the state of img--animated/static
+
+		// Parameters: 	
+		// img: html img element to toggle
+
+		var $img = $(img);
+
+		// get the state of the image
+		var state = $img.attr("data-state");
+
+		// if the image is static
+		if ( state === this.stateStill ) {
+			// animate the image and update state
+			$img.attr({
+				'src': $img.attr('data-animate'),
+				'data-state': this.stateAnimated
+			});			
+
+		// if the image is animated
+		} else if ( state === this.stateAnimated ) {
+			// make the img static
+			$img.attr({
+				'src': $img.attr('data-still'),
+				'data-state': this.stateStill
+			});	
+		}
+	}
 };
 
 $(document).ready( function() {
-
-	// image state enumeration
-	var imgState = {
-		still: "still",
-		animated: "animated"
-	};
 
 	// display topic buttons
 	topicButtons.render();
@@ -224,7 +246,7 @@ $(document).ready( function() {
 		// if element clicked is an image
 		if ( event.target.tagName === "IMG" ) {
 			// animate if static. make static if animated.
-			toggleImage(event.target);
+			giffery.toggleGif(event.target);
 		}
 	});
 
@@ -251,38 +273,8 @@ $(document).ready( function() {
 		// update currentTopic
 		currentTopic = topic;
 
-		// get gif data from giphy api
+		// get gif data from giphy api and render the topic buttons
 		giphy.search(topic).done(giffery.render);
-
 		topicButtons.render();
-	}
-
-	function toggleImage(img) {
-	// Toggles the state of img--animated/static
-
-		// Parameters: 	
-		// img: html img element to toggle
-
-		var $img = $(img);
-
-		// get the state of the image
-		var state = $img.attr("data-state");
-
-		// if the image is static
-		if ( state === imgState.still ) {
-			// animate the image and update state
-			$img.attr({
-				'src': $img.attr('data-animate'),
-				'data-state': imgState.animated
-			});			
-
-		// if the image is animated
-		} else if ( state === imgState.animated ) {
-			// make the img static
-			$img.attr({
-				'src': $img.attr('data-still'),
-				'data-state': imgState.still
-			});	
-		}
 	}
 });
