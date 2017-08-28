@@ -140,7 +140,14 @@ var giffery = {
 
 	// --- methods --- //
 
-	handleClick: function(event) {},
+	handleClick: function(event) {
+	// handles clicks on the #giffery element
+
+		// toggle gif state if an img is clicked
+		if ( event.target.tagName === "IMG" ) {
+			giffery.toggleGif(event.target);
+		}
+	},
 	newFigure: function(images, rating) {
 	// Returns jquery figure element containing an image with rating
 
@@ -241,14 +248,7 @@ $(document).ready( function() {
 	$("#buttonBox").on("click", handleTopicSelection);
 
 	// listen for click on #giffery
-	$("#giffery").on("click", function(event, imgState) {
-
-		// if element clicked is an image
-		if ( event.target.tagName === "IMG" ) {
-			// animate if static. make static if animated.
-			giffery.toggleGif(event.target);
-		}
-	});
+	$("#giffery").on("click", giffery.handleClick);
 
 	// listen for click on #btnAddTopic
 	$("#btnAddTopic").on("click", function(event) { 
