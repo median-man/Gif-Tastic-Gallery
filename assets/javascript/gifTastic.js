@@ -136,6 +136,8 @@ var giffery = {
 	still: 'still',
 	animated: 'animated',
 
+	gifferyId: "#giffery",
+
 	// --- methods --- //
 	handleClick: function(event) {},
 	newFigure: function(images, rating) {
@@ -166,7 +168,39 @@ var giffery = {
 						+ "</span>")
 					);
 	},
-	render: function() {},
+	render: function(giphyData) {
+	// Renders images in giphyData and scrolls to giffery on small screens
+		// Parameters:
+		// giphyData - object returned by giphy search api
+
+		var data = giphyData.data;
+		var $giffery = $(giffery.gifferyId);
+
+		// clear #giffery
+		$giffery.fadeTo(200, 0, function() {			
+			$giffery.empty().css("opacity",1);
+
+			// apend images in #giffery for each gif with image in a
+			// static (as opposed to animated) state
+			for ( var i = 0; i < data.length; i++ ) {
+				// append figure to the giffery and fade in the image
+				var gifRating = giphyData.data[i].rating;
+				giffery.newFigure(data[i].images, gifRating)
+					.hide()	
+					.appendTo(giffery.gifferyId)
+					.css("opacity",0)
+					.fadeTo(800,1);
+			}
+		});
+
+		// scroll window to giffery if page is displayed as a single
+		// column (viewport width < 449px)
+		if ( window.innerWidth < 550 ) {
+		    $('body').animate({
+		        scrollTop: $giffery.offset().top
+		    });
+	    }
+	},
 	toggleGif: function(img) {}
 };
 
@@ -218,42 +252,9 @@ $(document).ready( function() {
 		currentTopic = topic;
 
 		// get gif data from giphy api
-		giphy.search(topic).done(renderGifs);
+		giphy.search(topic).done(giffery.render);
 
 		topicButtons.render();
-	}
-
-	function renderGifs(giphyData) {
-	// Renders images in data and scrolls to giffery on small screens
-
-		var data = giphyData.data;
-		var $giffery = $("#giffery");
-
-		// clear #giffery
-		$giffery.fadeTo(200, 0, function() {			
-			$giffery.empty().css("opacity",1);
-
-			// apend images in #giffery for each gif with image in a
-			// static (as opposed to animated) state
-			for ( var i = 0; i < data.length; i++ ) {
-
-				// append figure to the giffery and fade in the image
-				var gifRating = giphyData.data[i].rating;
-				giffery.newFigure(data[i].images, gifRating)
-					.hide()
-					.appendTo("#giffery")
-					.css("opacity",0)
-					.fadeTo(800,1);
-			}
-		});
-
-		// scroll window to giffery if page is displayed as a single
-		// column (viewport width < 449px)
-		if ( window.innerWidth < 550 ) {
-		    $('body').animate({
-		        scrollTop: $giffery.offset().top
-		    });
-	    }			
 	}
 
 	function toggleImage(img) {
