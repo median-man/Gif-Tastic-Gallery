@@ -4,6 +4,12 @@ var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
 // store current topic
 var currentTopic;
 
+/* 
+	giphy object
+	------------------------------------------------------------------
+
+	Contains properties and functions for accessing the giphy api
+*/
 var giphy = {
 	// --- giphy properties --- //
 
@@ -46,6 +52,7 @@ var giphy = {
 		});
 	}
 };
+
 
 $(document).ready( function() {
 
@@ -146,14 +153,13 @@ $(document).ready( function() {
 		// update #giffery topic attribute
 		$("#giffery").attr("data-topic", topic);
 
-		giphy.search(topic).done(renderGifs);
-
-		// update the style of selected topic button
-		$("#buttonBox").children().removeClass("button-primary");
-		$(event.target).addClass("button-primary");
-
 		// update currentTopic
 		currentTopic = topic;
+
+		// get gif data from giphy api
+		giphy.search(topic).done(renderGifs);
+
+		renderButtons();
 	}
 
 	function renderButtons() {
@@ -167,18 +173,8 @@ $(document).ready( function() {
 		// add a button to #buttonBox for each topic
 		topics.forEach(function(topic) {
 
-			classes = "u-full-width";
-
-			// style button for current topic
-			if ( topic === currentTopic ) {
-				classes += " button-primary";
-			}
-
-			// creat button and add it to button box
-			$("<button>")
-				.addClass(classes)
-				.text(topic)
-				.attr("data-topic", topic)
+			// create button and add it to button box
+			topicButton(topic, topic === currentTopic)
 				.appendTo("#buttonBox");
 		});
 	}
@@ -245,4 +241,26 @@ $(document).ready( function() {
 			});	
 		}
 	}
+
+	function topicButton(topic, isCurrent) {
+	// Returns a jQuery object for a topic button
+		// Paremeters:
+		// topic - string for the topic of the button
+		// isCurrent - boolean indicator for current topic
+
+		var classes = "u-full-width";
+		var clsCurrentTopic = "button-primary";
+
+		// apply currentTopic class if topic is the current topic
+		if ( isCurrent ) {
+			classes += " " + clsCurrentTopic;
+		}
+
+		// create button
+		return $("<button>")
+				.addClass(classes)
+				.text(topic)
+				.attr("data-topic", topic);
+
+	};
 });
