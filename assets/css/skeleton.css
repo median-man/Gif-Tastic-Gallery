@@ -353,6 +353,7 @@ header {
 figure {
     margin-top: 0;
     margin-left: 0;
+    display: inline-block;
 }
 
 figure img {

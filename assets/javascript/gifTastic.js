@@ -4,6 +4,49 @@ var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
 // store current topic
 var currentTopic;
 
+var giphy = {
+	// --- giphy properties --- //
+
+	// giphy search api parameters
+	apiKey: "f3971dc19c6240feab39b26de85716d1",
+	hostUrl: "https://api.giphy.com",
+	limit: 10,
+	ratingLimit: "pg-13",
+
+	// --- giphy methods --- //
+
+	search: function(searchString) {
+	// Returns $.ajax() call to giphy search api. Returns
+	// false if searchString is invalid or undefined.
+		// Paremeters:
+		// searchString - word or phrase to search for
+
+		var searchPath = "/v1/gifs/search?";
+		var queryURL = "https://api.giphy.com/v1/gifs/search?";
+
+		// stop execution and return false if searchString is
+		// invalid
+		if ( typeof searchString !== 'string'
+			|| searchString.length === 0 ) {
+			return false;
+		}
+
+		// add query parameters to url
+		queryURL += $.param({
+			api_key: this.apiKey,
+			q: searchString,
+			limit: this.limit,
+			rating: this.ratingLimit
+		});
+
+		//send ajax request and return it
+		return $.ajax({
+			url: queryURL,
+			method: "GET"
+		});
+	}
+};
+
 $(document).ready( function() {
 
 	// image state enumeration
@@ -96,34 +139,14 @@ $(document).ready( function() {
 
 	function handleTopicSelection(event) {
 	// Sends request to giphy api for gifs
-
-		var queryURL = "https://api.giphy.com/v1/gifs/search?";
+		console.log(giphy);
+		// var queryURL = "https://api.giphy.com/v1/gifs/search?";
 		var topic = $(event.target).attr("data-topic");
 
-		// stop execution if topic is not a string
-		if ( typeof topic !== 'string' ) {
-			return;
-		}
-
-		// add query parameters to url
-		queryURL += $.param({
-			api_key: "f3971dc19c6240feab39b26de85716d1",
-			q: topic,
-			limit: 10,
-			rating: "pg-13"
-		});
-
-		// update data-topic of #giffery
+		// update #giffery topic attribute
 		$("#giffery").attr("data-topic", topic);
 
-		//send request
-		$.ajax({
-			url: queryURL,
-			method: "GET"
-		}).done(function(response) {
-
-			renderGifs(response);
-		});
+		giphy.search(topic).done(renderGifs);
 
 		// update the style of selected topic button
 		$("#buttonBox").children().removeClass("button-primary");
