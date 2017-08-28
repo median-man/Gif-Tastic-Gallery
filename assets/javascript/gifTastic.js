@@ -1,4 +1,4 @@
-// starting topics must be lower case
+// initial topics - must be lower case
 var topics = ["flying circus", "star wars", "dune", "willow", "mad max"];
 
 // store current topic
@@ -8,7 +8,7 @@ var currentTopic;
 	giphy object
 	------------------------------------------------------------------
 
-	Contains properties and functions for accessing the giphy api
+	Contains properties and methods for accessing the giphy api
 */
 var giphy = {
 	// --- giphy properties --- //
@@ -52,6 +52,74 @@ var giphy = {
 		});
 	}
 };
+/* 
+	topicButtons object
+	------------------------------------------------------------------
+
+	Contains properties and methods for 
+*/
+var topicButtons = {
+	topics: topics,
+	addTopic: function(topic) {
+	// Adds a new topic to topics
+
+		// Parameters:
+		// newTopic - string
+
+		topic = topic.toLowerCase();
+
+		// return false if topic has already been added or
+		// topic is an empty string
+		if ( topic.length === 0 ||
+			topics.indexOf(topic) > -1 ) {
+			return false;
+		}
+
+		// add topic to topics and render the ubttons
+		this.topics.unshift( topic );
+		this.render();	
+	},
+	getBtnTopic: function(btnElement) {
+	// returns the topic of the btnElement
+		return $(btnElement).attr("data-topic");
+	},
+	newButton: function(topic, isCurrent) {
+	// Returns a jQuery object for a topic button
+		// Paremeters:
+		// topic - string for the topic of the button
+		// isCurrent - boolean indicator for current topic
+
+		var classes = "u-full-width";
+		var clsCurrentTopic = "button-primary";
+
+		// apply currentTopic class if topic is the current topic
+		if ( isCurrent ) {
+			classes += " " + clsCurrentTopic;
+		}
+
+		// create button
+		return $("<button>")
+				.addClass(classes)
+				.text(topic)
+				.attr("data-topic", topic);	
+	},
+	render: function() {
+	// Renders topic buttons from topics array
+
+		var classes;
+
+		// clear buttons
+		$("#buttonBox").empty();
+
+		// add a button to #buttonBox for each topic
+		this.topics.forEach(function(topic) {
+
+			// create button and add it to button box
+			topicButtons.newButton(topic, topic === currentTopic)
+				.appendTo("#buttonBox");
+		});
+	}
+};
 
 
 $(document).ready( function() {
@@ -63,7 +131,7 @@ $(document).ready( function() {
 	};
 
 	// display topic buttons
-	renderButtons();
+	topicButtons.render();
 
 	// listen for click on #buttonBox
 	$("#buttonBox").on("click", handleTopicSelection);
@@ -83,36 +151,11 @@ $(document).ready( function() {
 		event.preventDefault();
 
 		// get the topic from the form and add it to the buttons
-		addTopic($("#txtAddTopic").val());
+		topicButtons.addTopic($("#txtAddTopic").val());
 
 		// clear input from form
 		$("#txtAddTopic").val("");
 	});
-
-	function addTopic(newTopic) {
-	// Adds a new topic button
-
-		// Parameters:
-		// newTopic - string
-
-		// do nothing if newTopic is blank
-		if ( newTopic.length === 0 ) {
-			return;
-		}
-
-		newTopic = newTopic.toLowerCase();
-
-		// do nothing if new topic is already in topics array
-		if ( topics.indexOf(newTopic) > -1 ) {
-			return;
-		}
-
-		// add topic from the form to beginning of topics array
-		topics.unshift( newTopic );
-
-		// render topic buttons
-		renderButtons();
-	}
 
 	function getFigure(images, rating) {
 	// Returns jquery figure element containing an image with rating
@@ -146,9 +189,9 @@ $(document).ready( function() {
 
 	function handleTopicSelection(event) {
 	// Sends request to giphy api for gifs
-		console.log(giphy);
-		// var queryURL = "https://api.giphy.com/v1/gifs/search?";
-		var topic = $(event.target).attr("data-topic");
+
+		// get the topic of the button that was clicked
+		var topic = topicButtons.getBtnTopic(event.target);
 
 		// update #giffery topic attribute
 		$("#giffery").attr("data-topic", topic);
@@ -159,24 +202,7 @@ $(document).ready( function() {
 		// get gif data from giphy api
 		giphy.search(topic).done(renderGifs);
 
-		renderButtons();
-	}
-
-	function renderButtons() {
-	// Renders topic buttons from topics array
-
-		var classes;
-
-		// clear buttons
-		$("#buttonBox").empty();
-
-		// add a button to #buttonBox for each topic
-		topics.forEach(function(topic) {
-
-			// create button and add it to button box
-			topicButton(topic, topic === currentTopic)
-				.appendTo("#buttonBox");
-		});
+		topicButtons.render();
 	}
 
 	function renderGifs(giphyData) {
@@ -184,7 +210,6 @@ $(document).ready( function() {
 
 		var data = giphyData.data;
 		var $giffery = $("#giffery");
-
 
 		// clear #giffery
 		$giffery.fadeTo(200, 0, function() {			
@@ -241,26 +266,4 @@ $(document).ready( function() {
 			});	
 		}
 	}
-
-	function topicButton(topic, isCurrent) {
-	// Returns a jQuery object for a topic button
-		// Paremeters:
-		// topic - string for the topic of the button
-		// isCurrent - boolean indicator for current topic
-
-		var classes = "u-full-width";
-		var clsCurrentTopic = "button-primary";
-
-		// apply currentTopic class if topic is the current topic
-		if ( isCurrent ) {
-			classes += " " + clsCurrentTopic;
-		}
-
-		// create button
-		return $("<button>")
-				.addClass(classes)
-				.text(topic)
-				.attr("data-topic", topic);
-
-	};
 });
