@@ -1,4 +1,4 @@
-# GifTastic
+# Gif-Tastic Gallery
 
 The repository contains the files for the GifTastic web application.
 GifTastic displays a gallery of gifs (a giffery?) related to a variety
@@ -6,7 +6,7 @@ of topics. Users are able to add additional topics.
 
 UCSD Coding Bootcamp - Week 3, Homework 6.
 
-See [GifTastic](https://median-man.github.io/GifTastic/) on Github Pages.
+See [GifTastic](https://median-man.github.io/Gif-Tastic-Gallery/) on Github Pages.
 
 
 ## Getting Started
