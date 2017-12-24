@@ -21,7 +21,7 @@ const giphy = {
 
   // --- giphy methods --- //
 
-  search(searchString) {
+  search: function (searchString) {
     // Returns $.ajax() call to giphy search api. Returns
     // false if searchString is invalid or undefined.
     // Paremeters:
@@ -46,10 +46,10 @@ const giphy = {
     });
 
     // send ajax request and return it
-    return $.ajax({
+    return Promise.resolve($.ajax({
       url: queryURL,
       method: 'GET',
-    });
+    }).done(response => response.data));
   },
 };
 /*
@@ -277,7 +277,7 @@ $(document).ready(() => {
     currentTopic = topic;
 
     // get gif data from giphy api and render the topic buttons
-    giphy.search(topic).done(giffery.render);
+    giphy.search(topic).then(giffery.render);
     topicButtons.render();
   }
 });
