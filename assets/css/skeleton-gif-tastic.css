@@ -311,6 +311,9 @@ form {
   float: right; }
 .u-pull-left {
   float: left; }
+.u-push-down {
+  margin-top: 1em;
+}
 
 @media (min-width: 550px) {
   .hide.medium {
@@ -345,6 +348,13 @@ hr {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 header {
     padding-top: 2em;
+}
+
+/* footer 
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#gitHubLogo {
+  height: 1.6em;
 }
 
 
