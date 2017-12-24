@@ -1,13 +1,12 @@
 # Gif-Tastic Gallery
 
-The repository contains the files for the GifTastic web application.
-GifTastic displays a gallery of gifs (a giffery?) related to a variety
-of topics. Users are able to add additional topics.
+Gif-Tastic Gallery searches the [Giphy API](https://developers.giphy.com/) based on key words
+selected by the user. Ten results are displayed for each search. Users may click on images to
+play/pause the gifs.
 
-UCSD Coding Bootcamp - Week 3, Homework 6.
+See [Gif-Tastic Gallery](https://median-man.github.io/Gif-Tastic-Gallery/) on Github Pages for a live demo.
 
-See [GifTastic](https://median-man.github.io/Gif-Tastic-Gallery/) on Github Pages.
-
+![Image of Gif-Tastic Gallery](./assets/images/gif-tastic-screenshot.png)
 
 ## Getting Started
 
@@ -18,22 +17,17 @@ order for GifTastic to work.
 
 ## Educational Purpose
 
-I'm building this app to learn about and gain experience with jQuery's
-AJAX features. This application is intended to satisfy the 
-requirements of the 6th homework assignement for the 
-[Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/).
+I'm building this app to gain some practical experience using jQuery's AJAX method.
 
 ## Links
-* [GifTastic](https://median-man.github.io/GifTastic/)
+* [Gif-Tastic Gallery](https://median-man.github.io/Gif-Tastic-Gallery/)
 * [Source Code](https://github.com/median-man/GifTastic)
-* [Homework Instructions](http://ucsd.bootcampcontent.com/UCSD-Coding-Bootcamp/08-07-2017-UCSD-San-Diego-Class-Repositoy-FSF-FT/blob/master/homework/06-ajax/02-Homework/Instructions/homework.md) (login required)
 * [Giphy API](https://developers.giphy.com/)
 * [jQuery](http://jquery.com/)
-* [Coding Bootcamp at UCSD Extension](https://codingbootcamp.extension.ucsd.edu/)
 
 ## Author
 John Desrosiers
 
 ## Acknowledgements
-* [Sekeleton](http://getskeleton.com/) boilerplate CSS is used in GifTastic.
+* [Skeleton](http://getskeleton.com/) boilerplate CSS is used in GifTastic.
 * [Big Smile](http://findicons.com/icon/39186/big_smile) icon by Rokey.
