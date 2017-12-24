@@ -4,29 +4,16 @@ const topics = ['flying circus', 'star wars', 'dune', 'willow', 'mad max'];
 // store current topic
 let currentTopic;
 
-/*
-  giphy object
-  ------------------------------------------------------------------
+// Giphy handles making requests to the Giphy API.
+function Giphy() {
+  this.apiKey = 'f3971dc19c6240feab39b26de85716d1';
+  this.hostUrl = 'https://api.giphy.com';
+  this.limit = 10;
+  this.ratingLimit = 'pg-13';
 
-  Contains properties and methods for accessing the giphy api
-*/
-const giphy = {
-  // --- giphy properties --- //
-
-  // giphy search api parameters
-  apiKey: 'f3971dc19c6240feab39b26de85716d1',
-  hostUrl: 'https://api.giphy.com',
-  limit: 10,
-  ratingLimit: 'pg-13',
-
-  // --- giphy methods --- //
-
-  search: function (searchString) {
-    // Returns $.ajax() call to giphy search api. Returns
-    // false if searchString is invalid or undefined.
-    // Paremeters:
-    // searchString - word or phrase to search for
-
+  // Makes a get request to the Giphy API search endpoint and
+  // returns a promise for the response data.
+  this.search = function giphyApiSearchRequest(searchString) {
     const searchPath = '/v1/gifs/search?';
     let queryURL = 'https://api.giphy.com/v1/gifs/search?';
 
@@ -45,30 +32,23 @@ const giphy = {
       rating: this.ratingLimit,
     });
 
-    // send ajax request and return it
+    // return promise for the request
     return Promise.resolve($.ajax({
       url: queryURL,
       method: 'GET',
     }).done(response => response.data));
-  },
-};
-/*
-  giffery object
-  ------------------------------------------------------------------
+  };
+}
+const giphy = new Giphy();
 
-  Contains properties and methods for displaying and interacting
-  with gifs.
-*/
+// view component which contains the image gallery for
+// requested gifs
 const giffery = {
-  // --- properties --- //
-
   // image states
   stateStill: 'still',
   stateAnimated: 'animated',
 
   gifferyId: '#giffery',
-
-  // --- methods --- //
 
   handleClick(event) {
     // handles clicks on the #giffery element
@@ -104,18 +84,6 @@ const giffery = {
         }</span>`));
   },
   render(giphyData) {
-    // Renders images in giphyData and scrolls to giffery on small screens
-    // Parameters:
-    // giphyData - object returned by giphy search api
-
-    /*
-    TODO:
-      Create methods in giphy object for accessing the data
-      in the object returned by the api to decouple the
-      giffery from the giphy api schema. This will make
-      maintaining the app easier if the giphy api is changed
-      in the future.
-    */
 
     const data = giphyData.data;
     const $giffery = $(giffery.gifferyId);
