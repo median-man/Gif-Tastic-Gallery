@@ -4,7 +4,6 @@
     "browser": true,
     "es6": true,
     "node": false,
-    "jquery": true,
-    "mocha": true
+    "jquery": true
   }
 }
