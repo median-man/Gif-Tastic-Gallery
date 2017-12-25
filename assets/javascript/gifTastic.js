@@ -14,7 +14,6 @@ function Giphy() {
   // Makes a get request to the Giphy API search endpoint and
   // returns a promise for the response data.
   this.search = function giphyApiSearchRequest(searchString) {
-    const searchPath = '/v1/gifs/search?';
     let queryURL = 'https://api.giphy.com/v1/gifs/search?';
 
     // stop execution and return false if searchString is
@@ -40,6 +39,18 @@ function Giphy() {
   };
 }
 const giphy = new Giphy();
+
+function Gif() {
+  this.$el = $('<figure>');
+}
+Gif.prototype.appendTo = function appendToParentElement(parent) {
+  $(parent).append(this.$el);
+  return this;
+};
+Gif.prototype.remove = function removeElementFromDOM() {
+  this.$el.remove();
+  return this;
+};
 
 // view component which contains the image gallery for
 // requested gifs
