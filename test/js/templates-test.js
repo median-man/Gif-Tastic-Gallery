@@ -1,13 +1,13 @@
-/* global html */
-describe('Html object',() => {
+/* global templates */
+describe('Templates object',() => {
   it('has a gifFigure property that is a string', () => {
-    expect(html).to.have.property('gifFigure');
-    expect(html.gifFigure).to.be.a('string');
+    expect(templates).to.have.property('gifFigure');
+    expect(templates.gifFigure).to.be.a('string');
   });
   describe('The gifFigure property', () => {
     let $gifFigure = null;
     before(() => {
-      $gifFigure = $(html.gifFigure).appendTo($fixtures);
+      $gifFigure = $(templates.gifFigure).appendTo($fixtures);
     });
     after(() => {
       $fixtures.empty();

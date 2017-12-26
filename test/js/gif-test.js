@@ -1,5 +1,5 @@
-/* global Gif html */
-const htmlTemplate = html.gifFigure;
+/* global Gif templates */
+const htmlTemplate = templates.gifFigure;
 
 describe('Gif', () => {
   const expectedElementType = 'figure';
