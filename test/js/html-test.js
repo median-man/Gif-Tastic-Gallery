@@ -1,13 +1,16 @@
 /* global html */
 describe('Html object',() => {
-  it('has a gifFigure property that holds a valid html string', () => {
+  it('has a gifFigure property that is a string', () => {
     expect(html).to.have.property('gifFigure');
     expect(html.gifFigure).to.be.a('string');
   });
   describe('The gifFigure property', () => {
     let $gifFigure = null;
-    beforeEach(() => {
-      $gifFigure = $(html.gifFigure);
+    before(() => {
+      $gifFigure = $(html.gifFigure).appendTo($fixtures);
+    });
+    after(() => {
+      $fixtures.empty();
     });
     it('has is a figure element', () => {
       expect($gifFigure.is('figure')).to.be.true;

@@ -1,0 +1,19 @@
+{
+  "name": "gif-tastic-gallery",
+  "version": "1.0.0",
+  "description": "Gif-Tastic Gallery searches the [Giphy API](https://developers.giphy.com/) based on key words selected by the user. Ten results are displayed for each search. Users may click on images to play/pause the gifs.",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/median-man/Gif-Tastic-Gallery.git"
+  },
+  "author": "John Desrosiers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/median-man/Gif-Tastic-Gallery/issues"
+  },
+  "homepage": "https://github.com/median-man/Gif-Tastic-Gallery#readme",
+  "devDependencies": {
+    "chai": "^4.1.2"
+  }
+}

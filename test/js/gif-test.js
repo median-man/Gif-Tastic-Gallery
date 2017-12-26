@@ -6,7 +6,10 @@ describe('Gif', () => {
   const testStaticUrl = 'https://media1.giphy.com/media/jd6TVgsph6w7e/200_s.gif';
   const testAnimatedUrl = 'https://media1.giphy.com/media/jd6TVgsph6w7e/200.gif';
   describe('the $el property', () => {
-    const $el = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).$el;
+    let $el = null;
+    before(() => {
+      $el = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).$el;
+    });
     it('is a jQuery instance', () => {
       expect($el).to.be.an.instanceof($);
     });  
@@ -16,17 +19,16 @@ describe('Gif', () => {
   });
 
   describe('appendTo method', () => {
-    const $parent = $('<div>').appendTo('body');
     const gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+    afterEach(() => {
+      $fixtures.empty();
+    });
     it('appends the element to a parent element', () => {
-      gif.appendTo($parent);
-      expect($parent.children().is(gif.$el)).to.be.true;
+      gif.appendTo($fixtures);
+      expect($fixtures.children().is(gif.$el)).to.be.true;
     });
     it('returns the instance of the Gif', () => {
-      expect(gif.appendTo($parent)).to.be.equal(gif);
-    });
-    after(() => {
-      $parent.remove();
+      expect(gif.appendTo($fixtures)).to.be.equal(gif);
     });
   });
 
@@ -34,16 +36,19 @@ describe('Gif', () => {
     let id = 'testGif-remove';
     let gif = {};
     beforeEach(() => {
-      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).$el.attr('id', id);
+      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+      gif.$el.attr('id', id);
+      $fixtures.append(gif.$el);
     });
     afterEach(() => {
-      $(`#${id}`).remove();
+      // perform cleanup by removing the element in the event a test fails to remove it.
+      $fixtures.empty();
     });
     it('removes the element from the dom', () => {
-      gif.appendTo('body');
-      expect($(`#${id}`).length, 'gif.appendTo() failed to add element to DOM').to.equal(1);
+      // ensure the element is present on the dom
+      expect($fixtures.find(`#${id}`).length, 'element not present in DOM before test').to.equal(1);
       gif.remove();
-      expect($(`#${id}`).length, 'element was not removed from the DOM').to.equal(0);
+      expect($fixtures.children().length, 'element was not removed from the DOM').to.equal(0);
     });
     it('returns the instance of the Gif', () => {
       expect(gif.remove()).to.equal(gif);
@@ -51,22 +56,27 @@ describe('Gif', () => {
   });
 
   it('initialy displays the static/paused image', () => {
-    const gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).appendTo('body');
-    expect(gif.$el.find('img').attr('src')).to.equal(testStaticUrl);
-    gif.remove();
+    const gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+    $fixtures.append(gif.$el);
+    expect($fixtures.find('img').attr('src')).to.equal(testStaticUrl);
+    $fixtures.empty();
   });
 
   it('has an isAnimated property that is initially set to false', () => {
-    const gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).appendTo('body');
-    expect(gif.isAnimated).to.be.false;
-    gif.remove();
+    const gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+    $fixtures.append(gif.$el);
+    expect(gif.isAnimated).to.be.false;    
+    $fixtures.empty();
   });
 
   describe('animate method', () => {
     let gif = {};
     beforeEach(() => {
       gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
-      gif.appendTo('body');
+      $fixtures.append(gif.$el);
+    });
+    afterEach(() => {
+      $fixtures.empty();
     });
     it('returns the instance of the Gif', () => {
       expect(gif.animate()).to.equal(gif);
@@ -80,16 +90,17 @@ describe('Gif', () => {
       expect(gif.isAnimated).to.be.true;
     });
     it('displays a loading indicator over the image until until the animated gif finishes loading');
-    afterEach(() => {
-      gif.remove();
-    });
   });
 
   describe('pause method', () => {
     let gif = {};
     beforeEach(() => {
       gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
-      gif.appendTo('body').animate();
+      $fixtures.append(gif.$el);
+      gif.animate();
+    });
+    afterEach(() => {
+      $fixtures.empty();
     });
     it('returns the instance of the Gif', () => {
       expect(gif.pause()).to.equal(gif);
@@ -102,16 +113,18 @@ describe('Gif', () => {
       gif.pause();
       expect(gif.isAnimated).to.be.false;
     });
-    afterEach(() => {
-      gif.remove();
-    });
   });
 
   describe('when the image is clicked and the image is in a paused state', () => {
     let gif = {};
     beforeEach(() => {
-      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).appendTo('body').pause();
-      gif.$img.trigger('click');
+      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+      $fixtures.append(gif.$el);
+      gif.pause();
+      $fixtures.find('img').trigger('click');
+    });
+    afterEach(() => {
+      $fixtures.empty();
     });
     it('isAnimated is true', () => {
       expect(gif.isAnimated).to.be.true;
@@ -119,18 +132,17 @@ describe('Gif', () => {
     it('src attribute of the img element is set to animatedUrl', () => {
       expect(gif.$el.find('img').attr('src')).to.equal(gif.animatedUrl);
     });
-    afterEach(() => {
-      gif.remove();
-    });
   });
   describe('when the image is clicked and the image is in an animated state', () => {
     let gif = {};
     beforeEach(() => {
-      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl).appendTo('body').animate();
+      gif = new Gif(htmlTemplate, testStaticUrl, testAnimatedUrl);
+      $fixtures.append(gif.$el);
+      gif.animate();
       gif.$img.trigger('click');
     });
     afterEach(() => {
-      gif.remove();
+      $fixtures.empty();
     });
     it('isAnimated is false', () => {
       expect(gif.isAnimated).to.be.false;

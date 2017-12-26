@@ -6,7 +6,7 @@ play/pause the gifs.
 
 See [Gif-Tastic Gallery](https://median-man.github.io/Gif-Tastic-Gallery/) on Github Pages for a live demo.
 
-![Image of Gif-Tastic Gallery](./assets/images/gif-tastic-screenshot.png)
+![Image of Gif-Tastic Gallery](./assets/images/gif-tastic-screenshot.jpg)
 
 ## Getting Started
 
@@ -17,7 +17,16 @@ order for GifTastic to work.
 
 ## Educational Purpose
 
-I'm building this app to gain some practical experience using jQuery's AJAX method.
+I'm building this app to gain some practical experience using jQuery's AJAX method as well as client testing with MochaJS.
+
+## Testing
+
+### Setup
+Run `npm i` to install dependencies.
+
+### Running the tests
+Start a local server on the root directory for the repository.  
+Navigate to`http://localhost:<port number>/test/test.html` in your browser.
 
 ## Links
 * [Gif-Tastic Gallery](https://median-man.github.io/Gif-Tastic-Gallery/)
