@@ -4,6 +4,11 @@ const topics = ['flying circus', 'star wars', 'dune', 'willow', 'mad max'];
 // store current topic
 let currentTopic;
 
+// html templates
+const html = {
+  gifFigure: '<figure><div class="gif-container"><img></div><figcaption>Rating: <span class="rating"></span></figcaption></figure>',
+};
+
 // Giphy handles making requests to the Giphy API.
 function Giphy() {
   this.apiKey = 'f3971dc19c6240feab39b26de85716d1';
@@ -40,13 +45,50 @@ function Giphy() {
 }
 const giphy = new Giphy();
 
-function Gif() {
-  this.$el = $('<figure>');
+function Gif(template, staticUrl, animatedUrl) {
+  this.$el = $(template);
+  this.$img = this.$el.find('img');
+  this.staticUrl = staticUrl;
+  this.animatedUrl = animatedUrl;
+  this.isAnimated = false;
+  this.pause();
+
+  // add event listener
+  this.$img.on('click', this.toggle.bind(this));
 }
+
+// Sets the src attribute of the img element
+Gif.prototype.setImage = function setImageSrcAttr(url) {
+  this.$img.attr('src', url);
+  return this;
+};
+
+// Sets the src attribute of img element to animated gif url
+Gif.prototype.animate = function setImgSrcToAnimatedGif() {
+  this.isAnimated = true;
+  return this.setImage(this.animatedUrl);
+};
+
+// Sets the src attribute of img element to static image url
+Gif.prototype.pause = function setImgSrcToStaticImage() {
+  this.isAnimated = false;
+  return this.setImage(this.staticUrl);
+};
+
+// Toggles the animate/pause state
+Gif.prototype.toggle = function toggleGifAnimation() {
+  if (this.isAnimated) return this.pause();
+  return this.animate();
+};
+
+// Appends the component to the DOM as the last child of parent and
+// sets listener for on click event
 Gif.prototype.appendTo = function appendToParentElement(parent) {
   $(parent).append(this.$el);
   return this;
 };
+
+// Removes the component from the DOM
 Gif.prototype.remove = function removeElementFromDOM() {
   this.$el.remove();
   return this;
