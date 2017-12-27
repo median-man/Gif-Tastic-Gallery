@@ -95,7 +95,7 @@ Gif.prototype.remove = function removeElementFromDOM() {
 };
 
 // Constructor for Giffery object
-function Giffery(selector, gifs = []) {
+function Giffery(selector) {
   this.selector = selector;
   this.gifs = [];
   
@@ -104,18 +104,24 @@ function Giffery(selector, gifs = []) {
   if (this.$.length === 0) {
     throw new Error('Invalid selector');
   }
-
-  // throw an error if any item in gifs array is not a gif
-  if (!gifs.every(item => item instanceof Gif)) {
-    throw new Error('gifs array may only contain Gif instances');
-  }
-  // add gifs
-  gifs.forEach(gif => this.addGif(gif));
 }
 Giffery.prototype.addGif = function addGifToGiffery(gif) {
   this.gifs.push(gif);
   gif.appendTo(this.$);
   return gif;
+};
+Giffery.prototype.clear = function clearGiffery() {
+  // do nothing if there are no gifs
+  // console.log(this.gifs.length > 0);
+  if (this.gifs.length === 0) {
+    return Promise.resolve();
+  }
+  return Promise
+    .resolve(this.$.fadeOut(200).promise())
+    .then(() => {
+      this.$.empty();
+      this.gifs = [];
+  });
 };
 // view component which contains the image gallery for
 // requested gifs

@@ -28,38 +28,12 @@ describe('Giffery object', () => {
       const myGiffery = new Giffery(`#${gifferyId}`);
       expect(myGiffery.$).to.be.an.instanceof($);
       expect(myGiffery.$.length).to.equal(1);
-
     });
     it('has an empty gifs array by default', () => {
       const myGiffery = new Giffery(`#${gifferyId}`);
       expect(myGiffery).to.have.a.property('gifs');
       expect(myGiffery.gifs).to.be.an('array');
       expect(myGiffery.gifs.length).to.equal(0);
-    });
-    describe('if passed an array of gifs', () => {
-      beforeEach(() => {
-        $fixtures.empty();
-        gifferyDiv();
-      });
-      it('throws if any element in the passed array is not a Gif instance', () => {
-        expect(() => new Giffery(`#${gifferyId}`, [{ test: 'test' }, createTestGif()])).to.throw();
-      });
-      it('does not throw if an empty array is passed', () => {
-        expect(() => new Giffery(`#${gifferyId}`, [])).to.not.throw();
-      });
-      it('the gifs array is populated with the gifs', () => {
-        const gif1 = createTestGif();
-        const gif2 = createTestGif();
-        const giffery = new Giffery(`#${gifferyId}`, [gif1, gif2]);
-        expect(giffery.gifs.length).to.equal(2);
-        expect(giffery.gifs).to.have.members([gif1, gif2]);
-      });
-      it('all the gifs are added to the DOM', () => {
-        const gif1 = createTestGif();
-        const gif2 = createTestGif();
-        new Giffery(`#${gifferyId}`, [gif1, gif2]);
-        expect($(`#${gifferyId}`).children().length).to.equal(2);
-      });
     });
   });
   describe('addGif', () => {
@@ -84,6 +58,39 @@ describe('Giffery object', () => {
       const gif = createTestGif();
       myGiffery.addGif(gif);
       expect($fixtures.find(gif.$el).length).to.equal(1);
+    });
+  });
+  describe('clear', () => {
+    let myGiffery = null;
+    beforeEach(() => {
+      $fixtures.empty().hide();
+      gifferyDiv();
+      myGiffery = new Giffery(`#${gifferyId}`, [createTestGif()]);
+    });
+    it('returns a promise', () => {
+      expect(myGiffery.clear()).to.be.a('promise');
+    });
+    it('removes all gifs from DOM', (done) => {
+      // make sure there are child nodes in the giffery to avoid erroneous result
+      expect(document.getElementById(gifferyId).hasChildNodes()).to.be.true;
+      myGiffery
+        .clear()
+        .then(() => {
+          expect(document.getElementById(gifferyId).hasChildNodes()).to.be.false;
+          done();
+        })
+        .catch(done);
+    });
+    it('removes all items from gifs', (done) => {
+      // make sure there are items in the gifs array to avoid erroneous result
+      expect(myGiffery.gifs.length).is.at.least(1);
+      myGiffery
+        .clear()
+        .then(() => {
+          expect(myGiffery.gifs.length).to.equal(0);
+          done();
+        })
+        .catch(done);
     });
   });
 });
