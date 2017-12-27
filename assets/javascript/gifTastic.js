@@ -94,6 +94,29 @@ Gif.prototype.remove = function removeElementFromDOM() {
   return this;
 };
 
+// Constructor for Giffery object
+function Giffery(selector, gifs = []) {
+  this.selector = selector;
+  this.gifs = [];
+  
+  this.$ = $(selector);
+  // throw an error if selector does not match an element in the DOM
+  if (this.$.length === 0) {
+    throw new Error('Invalid selector');
+  }
+
+  // throw an error if any item in gifs array is not a gif
+  if (!gifs.every(item => item instanceof Gif)) {
+    throw new Error('gifs array may only contain Gif instances');
+  }
+  // add gifs
+  gifs.forEach(gif => this.addGif(gif));
+}
+Giffery.prototype.addGif = function addGifToGiffery(gif) {
+  this.gifs.push(gif);
+  gif.appendTo(this.$);
+  return gif;
+};
 // view component which contains the image gallery for
 // requested gifs
 const giffery = {
