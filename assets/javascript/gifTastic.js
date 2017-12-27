@@ -144,7 +144,6 @@ const giffery = {
         }</span>`));
   },
   render(giphyData) {
-
     const data = giphyData.data;
     const $giffery = $(giffery.gifferyId);
 
@@ -154,15 +153,16 @@ const giffery = {
 
       // apend images in #giffery for each gif with image in a
       // static (as opposed to animated) state
-      for (let i = 0; i < data.length; i++) {
-        // append figure to the giffery and fade in the image
-        const gifRating = giphyData.data[i].rating;
-        giffery.newFigure(data[i].images, gifRating)
-          .hide()
-          .appendTo(giffery.gifferyId)
-          .css('opacity', 0)
-          .fadeTo(800, 1);
-      }
+      data.forEach(imageData => {
+        const gif = new Gif(
+          templates.gifFigure,
+          imageData.images.fixed_height_still.url,
+          imageData.images.fixed_height.url,
+          imageData.rating
+        );
+        gif.$el.css('opacity', 0);
+        this.addGif(gif).$el.fadeTo(800, 1);
+      });
     });
 
     // scroll window to giffery if page is displayed as a single
@@ -279,7 +279,7 @@ $(document).ready(() => {
   $('#buttonBox').on('click', handleTopicSelection);
 
   // listen for click on #giffery
-  $('#giffery').on('click', giffery.handleClick);
+  // $('#giffery').on('click', giffery.handleClick);
 
   // listen for click on #btnAddTopic
   $('#btnAddTopic').on('click', (event) => {
@@ -305,7 +305,7 @@ $(document).ready(() => {
     currentTopic = topic;
 
     // get gif data from giphy api and render the topic buttons
-    giphy.search(topic).then(giffery.render);
+    giphy.search(topic).then(giffery.render.bind(giffery));
     topicButtons.render();
   }
 });
