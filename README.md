@@ -20,13 +20,8 @@ order for GifTastic to work.
 I'm building this app to gain some practical experience using jQuery's AJAX method as well as client testing with MochaJS.
 
 ## Testing
-
-### Setup
-Run `npm i` to install dependencies.
-
-### Running the tests
-Start a local server on the root directory for the repository.  
-Navigate to`http://localhost:<port number>/test/test.html` in your browser.
+There are a small collection of unit tests available by opening /test/index.html. The tests use MochaJS and Chai
+Javascript libraries by loading them from CDNs. If NodeJS is installed on the local environment, simply run `npm test` to open the unit tests in the browser.
 
 ## Links
 * [Gif-Tastic Gallery](https://median-man.github.io/Gif-Tastic-Gallery/)
