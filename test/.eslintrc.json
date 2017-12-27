@@ -5,6 +5,7 @@
   "globals": {
     "chai": false,
     "expect": false,
-    "$fixtures": false
+    "$fixtures": false,
+    "mockResponse": false
   }
 }

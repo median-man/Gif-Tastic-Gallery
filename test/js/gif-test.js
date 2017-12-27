@@ -89,7 +89,7 @@ describe('Gif', () => {
       gif.animate();
       expect(gif.isAnimated).to.be.true;
     });
-    it('displays a loading indicator over the image until until the animated gif finishes loading');
+    it('displays a loading indicator over the image until the animated gif finishes loading');
   });
 
   describe('pause method', () => {
