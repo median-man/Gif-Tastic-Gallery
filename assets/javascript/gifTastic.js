@@ -45,12 +45,13 @@ function Giphy() {
 }
 const giphy = new Giphy();
 
-function Gif(template, staticUrl, animatedUrl) {
+function Gif(template, staticUrl, animatedUrl, rating) {
   this.$el = $(template);
   this.$img = this.$el.find('img');
   this.staticUrl = staticUrl;
   this.animatedUrl = animatedUrl;
   this.isAnimated = false;
+  this.$el.find('.rating').text(rating);
   this.pause();
 
   // add event listener
@@ -84,7 +85,8 @@ Gif.prototype.toggle = function toggleGifAnimation() {
 // Appends the component to the DOM as the last child of parent and
 // sets listener for on click event
 Gif.prototype.appendTo = function appendToParentElement(parent) {
-  $(parent).append(this.$el);
+  this.$el.hide();
+  $(parent).append(this.$el.fadeIn());
   return this;
 };
 
@@ -118,118 +120,11 @@ Giffery.prototype.clear = function clearGiffery() {
   return Promise
     .resolve(this.$.fadeOut(200).promise())
     .then(() => {
-      this.$.empty();
+      this.$.empty().show();
       this.gifs = [];
   });
 };
-// view component which contains the image gallery for
-// requested gifs
-const giffery = {
-  // image states
-  stateStill: 'still',
-  stateAnimated: 'animated',
-  gifferyId: '#giffery',
-  gifs: [],
 
-  // add Gif instance to gifs array and append it to DOM
-  addGif: function addGifToGiffery(gif) {
-    this.gifs.push(gif);
-    gif.appendTo($(this.gifferyId));
-    return gif;
-  },
-
-  handleClick(event) {
-    // handles clicks on the #giffery element
-
-    // toggle gif state if an img is clicked
-    if (event.target.tagName === 'IMG') {
-      giffery.toggleGif(event.target);
-    }
-  },
-  newFigure(images, rating) {
-    // Returns jquery figure element containing an image with rating
-
-    // Parameters:
-    // images - object returned from giphy api
-    // rating - string for image rating
-
-    const animatedUrl = images.fixed_height.url;
-    const stillUrl = images.fixed_height_still.url;
-
-    // return a new html figure element
-    return $('<figure>')
-      // append new image inside a div
-      .append($("<div class='gif-container'>").append($('<img>').attr({
-        src: stillUrl,
-        alt: $('#giffery').attr('data-topic'),
-        'data-state': this.stateStill,
-        'data-still': stillUrl,
-        'data-animate': animatedUrl,
-      })))
-      // append rating to figure
-      .append($('<figcaption>')
-        .html(`Rating: <span class='rating'>${rating
-        }</span>`));
-  },
-  render(giphyData) {
-    const data = giphyData.data;
-    const $giffery = $(giffery.gifferyId);
-
-    // clear #giffery
-    $giffery.fadeTo(200, 0, () => {
-      $giffery.empty().css('opacity', 1);
-
-      // apend images in #giffery for each gif with image in a
-      // static (as opposed to animated) state
-      data.forEach(imageData => {
-        const gif = new Gif(
-          templates.gifFigure,
-          imageData.images.fixed_height_still.url,
-          imageData.images.fixed_height.url,
-          imageData.rating
-        );
-        gif.$el.css('opacity', 0);
-        this.addGif(gif).$el.fadeTo(800, 1);
-      });
-    });
-
-    // scroll window to giffery if page is displayed as a single
-    // column (viewport width < 449px)
-    if (window.innerWidth < 550) {
-      $('body').animate({
-        scrollTop: $giffery.offset().top,
-      });
-    }
-  },
-  toggleGif(img) {
-    // Toggles the state of img--animated/static
-
-    // Parameters:
-    // img: html img element to toggle
-
-    const $img = $(img);
-
-    // get the state of the image
-    const state = $img.attr('data-state');
-
-    // if the image is static
-    if (state === this.stateStill) {
-      // animate the image and update state
-      $img.attr({
-        src: $img.attr('data-animate'),
-        'data-state': this.stateAnimated,
-      });
-
-      // if the image is animated
-    } else if (state === this.stateAnimated) {
-      // make the img static
-      $img.attr({
-        src: $img.attr('data-still'),
-        'data-state': this.stateStill,
-      });
-    }
-  },
-};
 /*
   topicButtons object
   ------------------------------------------------------------------
@@ -300,14 +195,13 @@ var topicButtons = {
 };
 
 $(document).ready(() => {
+  const giffery = new Giffery('#giffery');
+
   // display topic buttons
   topicButtons.render();
 
   // listen for click on #buttonBox
   $('#buttonBox').on('click', handleTopicSelection);
-
-  // listen for click on #giffery
-  // $('#giffery').on('click', giffery.handleClick);
 
   // listen for click on #btnAddTopic
   $('#btnAddTopic').on('click', (event) => {
@@ -320,20 +214,33 @@ $(document).ready(() => {
     $('#txtAddTopic').val('');
   });
 
+  // Sends request to giphy api for gifs and renders them
   function handleTopicSelection(event) {
-    // Sends request to giphy api for gifs and renders them
 
     // get the topic of the button that was clicked
     const topic = topicButtons.getBtnTopic(event.target);
-
-    // update #giffery topic attribute
-    $('#giffery').attr('data-topic', topic);
 
     // update currentTopic
     currentTopic = topic;
 
     // get gif data from giphy api and render the topic buttons
-    giphy.search(topic).then(giffery.render.bind(giffery));
+    giphy
+      .search(topic)
+      .then((giphyData) => {
+        giffery
+          .clear()
+          .then(() => {
+            giphyData.data.forEach((item) => {
+              const gif = new Gif(
+                templates.gifFigure,
+                item.images.fixed_height_still.url,
+                item.images.fixed_height.url,
+                item.rating
+              );
+              giffery.addGif(gif);
+            });
+          });
+    });
     topicButtons.render();
   }
 });

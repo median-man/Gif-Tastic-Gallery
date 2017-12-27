@@ -93,6 +93,17 @@ describe('Giffery object', () => {
         })
         .catch(done);
     });
+    it('makes the giffery container element visible after it is emptied', (done) => {
+      myGiffery
+        .clear()
+        .then(() => {
+          const $container = $(`#${gifferyId}`);
+          expect($container.css('opacity')).is.equal('1');
+          expect($container.css('display')).is.not.equal('none');
+          done();
+        })
+        .catch(done);
+    });
   });
 });
 // const gifferyId = '#giffery';
