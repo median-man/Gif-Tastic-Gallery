@@ -112,7 +112,6 @@ Giffery.prototype.addGif = function addGifToGiffery(gif) {
 };
 Giffery.prototype.clear = function clearGiffery() {
   // do nothing if there are no gifs
-  // console.log(this.gifs.length > 0);
   if (this.gifs.length === 0) {
     return Promise.resolve();
   }

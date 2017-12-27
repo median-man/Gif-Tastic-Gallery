@@ -65,7 +65,8 @@ describe('Giffery object', () => {
     beforeEach(() => {
       $fixtures.empty().hide();
       gifferyDiv();
-      myGiffery = new Giffery(`#${gifferyId}`, [createTestGif()]);
+      myGiffery = new Giffery(`#${gifferyId}`);
+      myGiffery.addGif(createTestGif());
     });
     it('returns a promise', () => {
       expect(myGiffery.clear()).to.be.a('promise');
