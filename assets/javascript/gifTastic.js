@@ -100,8 +100,15 @@ const giffery = {
   // image states
   stateStill: 'still',
   stateAnimated: 'animated',
-
   gifferyId: '#giffery',
+  gifs: [],
+
+  // add Gif instance to gifs array and append it to DOM
+  addGif: function addGifToGiffery(gif) {
+    this.gifs.push(gif);
+    gif.appendTo($(this.gifferyId));
+    return gif;
+  },
 
   handleClick(event) {
     // handles clicks on the #giffery element

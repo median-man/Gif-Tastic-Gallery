@@ -1,6 +1,12 @@
-/* global giffery */
+/* global Gif giffery templates */
 const gifferyId = '#giffery';
-describe('Giffery', () => {
+const gifferyDiv = () => {
+  const div = document.createElement('div');
+  div.id = 'giffery';
+  return div;
+};
+describe('Giffery', function () {
+  this.timeout(4000);
   it('has a gifferyId property', () => {
     expect(giffery).to.have.property('gifferyId');
   });
@@ -16,6 +22,36 @@ describe('Giffery', () => {
     expect(giffery).to.have.property('toggleGif');
     expect(giffery.toggleGif).to.be.a('function');
   });
+  it('has a gifs property that is an array', () => {
+    expect(giffery).to.have.a.property('gifs');
+    expect(giffery.gifs).to.be.an('array');
+  });
+  describe('addGif method', () => {
+    let gif = null;
+    const staticImg = mockResponse.data[0].images.fixed_height_still.url;
+    const animatedImg = mockResponse.data[0].images.fixed_height.url;
+    const rating = mockResponse.data[0].rating;
+
+    // reset fixtures and get a new gif before each test
+    beforeEach(() => {
+      $fixtures.empty().hide().append(gifferyDiv);
+      expect($fixtures.children().length).to.equal(1);
+      gif = new Gif(templates.gifFigure, staticImg, animatedImg, rating);
+      giffery.gifs = [];
+    });
+
+    it('adds a new Gif instance to the gifs array', () => {
+      giffery.addGif(gif);
+      expect(giffery.gifs).to.include(gif);
+    });
+    it('returns the new Gif instance', () => {
+      expect(giffery.addGif(gif)).to.equal(gif);
+    });
+    it('appends the new Gif to the #giffery element', () => {
+      giffery.addGif(gif);
+      expect($fixtures.find(gif.$el).length).to.equal(1);
+    });
+  });
   describe('render method', () => {
     // add a giffery fixture to the page
     before(() => {
@@ -23,7 +59,7 @@ describe('Giffery', () => {
       $fixtures
         .empty()
         .hide()
-        .append($('<div>').attr('id', gifferyId.replace('#', '')));
+        .append(gifferyDiv());
       expect($fixtures.has(gifferyId).length).to.equal(1);
     });
     after(() => {
@@ -43,7 +79,7 @@ describe('Giffery', () => {
   describe('toggleGif method', () => {
     before((done) => {
       // render mock images and ensure they are present
-      $fixtures.empty().hide().append($('<div>').attr('id', gifferyId.replace('#', '')));
+      $fixtures.empty().hide().append(gifferyDiv());
       giffery.render(mockResponse);
       setTimeout(() => {
         expect($fixtures.find('img').size()).to.be.at.least(1);
