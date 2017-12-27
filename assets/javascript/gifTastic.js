@@ -6,7 +6,10 @@ let currentTopic;
 
 // html templates
 const templates = {
-  gifFigure: '<figure><div class="gif-container"><img></div><figcaption>Rating: <span class="rating"></span></figcaption></figure>',
+  gifFigure: '<figure>' + 
+    '<div class="gif-container"><img></div>' +
+    '<figcaption>Rating: <span class="rating"></span></figcaption>' +
+    '</figure>',
 };
 
 // Giphy handles making requests to the Giphy API.

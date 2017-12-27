@@ -20,6 +20,7 @@ order for GifTastic to work.
 I'm building this app to gain some practical experience using jQuery's AJAX method as well as client testing with MochaJS.
 
 ## Testing
+NodeJS must be installed to run the tests. Additionally, Gulp-cli must be installed globally. (Run `npm i -g gulp-cli`.)
 
 ### Setup
 Run `npm i` to install dependencies.

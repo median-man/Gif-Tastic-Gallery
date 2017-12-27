@@ -17,7 +17,9 @@ gulp.task('disconnect', ['mocha'], () => {
 gulp.task('mocha', ['connect'], () => {
   return gulp.src('test/js/integration-test.js', {read: false})
     // `gulp-mocha` needs filepaths so you can't have any plugins before it 
-    .pipe(mocha());
+    .pipe(mocha())
+    .once('error', () => process.exit(1))
+    .once('end', () => process.exit(0));
 });
 
 // runs connect, moch, and disconnect tasks sequentially
