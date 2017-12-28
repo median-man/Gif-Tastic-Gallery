@@ -34,5 +34,9 @@ describe('Templates object',() => {
     it('is a button element', () => {
       expect($(templates.topicButton).is('button')).to.be.true;
     });
+    // the primary-button class should only be applied when a topic button is selected
+    it('does not have the primary-button class', () => {
+      expect($(templates.topicButton).hasClass('primary-button')).to.be.false;
+    });
   });
 });

@@ -4,7 +4,7 @@ const topics = ['flying circus', 'star wars', 'dune', 'willow', 'mad max'];
 // html templates
 const templates = {
   gifFigure: '<figure><div class="gif-container"><img></div><figcaption>Rating: <span class="rating"></span></figcaption></figure>',
-  topicButton: '<button class="u-full-width button-primary"></button>',
+  topicButton: '<button class="u-full-width"></button>',
 };
 
 // Giphy handles making requests to the Giphy API.
