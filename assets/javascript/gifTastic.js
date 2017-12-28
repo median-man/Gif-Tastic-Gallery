@@ -1,9 +1,6 @@
 // initial topics - must be lower case
 const topics = ['flying circus', 'star wars', 'dune', 'willow', 'mad max'];
 
-// store current topic
-let currentTopic;
-
 // html templates
 const templates = {
   gifFigure: '<figure><div class="gif-container"><img></div><figcaption>Rating: <span class="rating"></span></figcaption></figure>',
@@ -132,7 +129,20 @@ function TopicButton(topic, html) {
   this.$.on('click', () => {
     if (this.onClick) this.onClick(this.topic);
   });
+  this.isSelected = false;  
 }
+TopicButton.prototype.selected = function isTopicButtonSelected(value) {
+  if (typeof value === 'undefined') {
+    return this.isSelected;
+  }
+  this.isSelected = value;
+  if (this.isSelected) {
+    this.$.addClass('button-primary');
+  } else {
+    this.$.removeClass('button-primary');
+  }
+  return this.isSelected;
+};
 
 function TopicButtons(selector, topicArr) {
   this.$ = $(selector);
@@ -140,114 +150,39 @@ function TopicButtons(selector, topicArr) {
   topicArr.forEach((element) => {
     this.add(element);
   });
+  this.onTopicChange = false;
 }
 TopicButtons.prototype.add = function addTopicButton(topicButton) {
   this.$.append(topicButton.$);
   this.buttons.push(topicButton);
 };
-TopicButtons.prototype.setTopic = function setTopic() {
-
+TopicButtons.prototype.setTopic = function setTopic(topic) {
+  // get the button for the topic
+  // deselect all buttons and select the button for the topic
+  this.buttons.forEach((item) => {
+    item.topic === topic ? item.selected(true) : item.selected(false);
+  });
+  // call onTopicChange if its set
+  if (this.onTopicChange) this.onTopicChange(topic);
 };
-
-/*
-  topicButtons object
-  ------------------------------------------------------------------
-
-  Contains properties and methods for adding topics and interacting
-  with the topic buttons.
-*/
-/* var topicButtons = {
-  topics,
-  addTopic(topic) {
-    // Adds a new topic to topics
-
-    // Parameters:
-    // newTopic - string
-
-    topic = topic.toLowerCase();
-
-    // return false if topic has already been added or
-    // topic is an empty string
-    if (topic.length === 0 ||
-      topics.indexOf(topic) > -1) {
-      return false;
-    }
-
-    // add topic to topics and render the ubttons
-    this.topics.unshift(topic);
-    this.render();
-  },
-  getBtnTopic(btnElement) {
-    // returns the topic of the btnElement
-    return $(btnElement).attr('data-topic');
-  },
-  newButton(topic, isCurrent) {
-    // Returns a jQuery object for a topic button
-    // Paremeters:
-    // topic - string for the topic of the button
-    // isCurrent - boolean indicator for current topic
-
-    let classes = 'u-full-width';
-    const clsCurrentTopic = 'button-primary';
-
-    // apply currentTopic class if topic is the current topic
-    if (isCurrent) {
-      classes += ` ${clsCurrentTopic}`;
-    }
-
-    // create button
-    return $('<button>')
-      .addClass(classes)
-      .text(topic)
-      .attr('data-topic', topic);
-  },
-  // Renders topic buttons from topics array
-  render() {
-
-    // clear buttons
-    $('#buttonBox').empty();
-
-    // add a button to #buttonBox for each topic
-    this.topics.forEach((topic) => {
-      // create button and add it to button box
-      topicButtons.newButton(topic, topic === currentTopic)
-        .appendTo('#buttonBox');
-    });
-  },
-}; */
 
 $(document).ready(() => {
   const giffery = new Giffery('#giffery');
+
+  // add buttons for initial topics
   const topicButtons = topics.map((item) => {
-    return new TopicButton(item);
+    return new TopicButton(item, templates.topicButton);
   });
+  topicButtons.onClick(handleTopicSelection);
 
-  // display topic buttons
-  // topicButtons.render();
-
-  // listen for click on #buttonBox
-  $('#buttonBox').on('click', handleTopicSelection);
-
-  // listen for click on #btnAddTopic
-  $('#btnAddTopic').on('click', (event) => {
-    event.preventDefault();
-
-    // get the topic from the form and add it to the buttons
-    // topicButtons.addTopic($('#txtAddTopic').val());
-
-    // clear input from form
+  // add a new button when add topic clicked
+  $('#btnAddTopic').on('click', () => {
+    topicButtons.add(new TopicButton($('#txtAddTopic').val().trim(), templates.topicButton));
     $('#txtAddTopic').val('');
   });
 
   // Sends request to giphy api for gifs and renders them
-  function handleTopicSelection(event) {
-
-    // get the topic of the button that was clicked
-    // const topic = topicButtons.getBtnTopic(event.target);
-
-    // update currentTopic
-    currentTopic = topic;
-
+  function handleTopicSelection(topic) {
     // get gif data from giphy api and render the topic buttons
     giphy
       .search(topic)
@@ -266,6 +201,5 @@ $(document).ready(() => {
             });
           });
     });
-    // topicButtons.render();
   }
 });

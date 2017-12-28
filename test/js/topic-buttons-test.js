@@ -10,6 +10,9 @@ describe('TopicButton', () => {
       const topicBtn = new TopicButton('', btnHtml);
       expect(topicBtn.$.is('button')).to.be.true;
     });
+    it('initializes isSelected as false', () => {
+      expect(new TopicButton('', btnHtml).isSelected).to.be.false;
+    });
   });
   describe('$', () => {
     it('is a jQuery collection containing a single button element', () => {
@@ -19,6 +22,36 @@ describe('TopicButton', () => {
     it('the element has text that is the same as the topic', () => {
       const topicBtn = new TopicButton('', btnHtml);
       expect(topicBtn.$.text()).to.equal(topicBtn.topic);
+    });
+  });
+  describe('selected', () => {
+    let topicBtn = null;
+    beforeEach(() => {
+      topicBtn = new TopicButton('', btnHtml);
+    });
+    it('returns the value of isSelected when no parameters are passed', () => {
+      topicBtn.isSelected = true;
+      expect(topicBtn.selected()).to.be.true;
+      topicBtn.isSelected = false;
+      expect(topicBtn.selected()).to.be.false;
+    });
+    it('sets the value of isSelected when a parameter is passed', () => {
+      topicBtn.isSelected = false;
+      topicBtn.selected(true);
+      expect(topicBtn.isSelected).to.be.true;
+      topicBtn.selected(false);
+      expect(topicBtn.isSelected).to.be.false;
+    });
+    it('adds the button-primary class when passed true', () => {
+      topicBtn.$.removeClass('button-primary');
+      topicBtn.selected(true);
+      expect(topicBtn.$.hasClass('button-primary')).to.be.true;
+    });
+    it('removes the button-primary class when passed true', () => {
+      topicBtn.isSelected = false;
+      topicBtn.$.addClass('button-primary');
+      topicBtn.selected(false);
+      expect(topicBtn.$.hasClass('button-primary')).to.be.false;
     });
   });
   describe('when the button is clicked', () => {
@@ -75,6 +108,26 @@ describe('TopicButtons', () => {
       expect(buttons)
         .to.be.an('array')
         .which.satisfies(buttons => buttons.every(item => item instanceof TopicButton));
+    });
+  });
+  describe('setTopic', () => {
+    let topicButtons = null;
+    beforeEach(() => {
+      $(`#${id}`).empty();
+      topicButtons = new TopicButtons(`#${id}`, [new TopicButton('test', btnHtml)]);
+      expect(topicButtons.buttons[0].isSelected).to.be.false;
+    });
+    it('calls onTopicChange if it is a function', () => {
+      const spy = sinon.spy();
+      topicButtons.onTopicChange = spy;
+      topicButtons.setTopic('test');
+      expect(spy.calledOnce).to.be.true;
+    });
+    it('it sets the selects the button with the matching topic', () => {
+      topicButtons.setTopic('test');
+      expect(topicButtons.buttons[0].isSelected).to.be.true;
+      topicButtons.setTopic('no match');
+      expect(topicButtons.buttons[0].isSelected).to.be.false;
     });
   });
 });

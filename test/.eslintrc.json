@@ -6,6 +6,7 @@
     "chai": false,
     "expect": false,
     "$fixtures": false,
-    "mockResponse": false
+    "mockResponse": false,
+    "sinon": false
   }
 }
