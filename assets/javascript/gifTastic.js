@@ -59,6 +59,15 @@ function Gif(template, staticUrl, animatedUrl, rating) {
 // Sets the src attribute of the img element
 Gif.prototype.setImage = function setImageSrcAttr(url) {
   this.$img.attr('src', url);
+  // display a spinner if the img takes more than 300ms to load
+  setTimeout(() => {
+    if (!this.$img.prop('complete')) {
+      this.$img.parent().addClass('spinner');
+      this.$img.one('load', () => {
+        this.$img.parent().removeClass('spinner');
+      });
+    }
+  }, 300);
   return this;
 };
 
