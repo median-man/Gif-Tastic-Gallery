@@ -80,10 +80,14 @@ describe('TopicButtons', () => {
   describe('constructor', () => {
   });
   describe('$', () => {
+    before(() => {
+      $fixtures.append($('<div>').attr('id', id));
+    });
     it('is an instance of a jQuery collection', () => {
       expect(new TopicButtons(`#${id}`, []).$).is.an.instanceof($);
     });
     it('has a length of 1', () => {
+      expect(document.getElementById(id)).to.exist;
       expect(new TopicButtons(`#${id}`, []).$.length).to.equal(1);
     });
   });

@@ -146,6 +146,7 @@ TopicButton.prototype.selected = function isTopicButtonSelected(value) {
 
 function TopicButtons(selector, topicArr) {
   this.$ = $(selector);
+  console.log(this.$[0])
   this.buttons = [];
   topicArr.forEach((element) => {
     this.add(element);
@@ -182,24 +183,28 @@ $(document).ready(() => {
   });
 
   // Sends request to giphy api for gifs and renders them
-  function handleTopicSelection(topic) {
-    // get gif data from giphy api and render the topic buttons
+  function handleTopicSelection(topic) {    
+    // helper to add the gifs from the data returned by the giphy api search
+    let giphyData = null;
+    function addGifs() {
+      giphyData.data.forEach((item) => {
+        const gif = new Gif(
+          templates.gifFigure,
+          item.images.fixed_height_still.url,
+          item.images.fixed_height.url,
+          item.rating
+        );
+        giffery.addGif(gif);
+      });
+    }
+
+    // get the search from giphy and add the gifs
     giphy
       .search(topic)
-      .then((giphyData) => {
-        giffery
-          .clear()
-          .then(() => {
-            giphyData.data.forEach((item) => {
-              const gif = new Gif(
-                templates.gifFigure,
-                item.images.fixed_height_still.url,
-                item.images.fixed_height.url,
-                item.rating
-              );
-              giffery.addGif(gif);
-            });
-          });
-    });
+      .then((result) => {
+        giphyData = result;
+      })
+      .then(giffery.clear)
+      .then(addGifs);
   }
 });
