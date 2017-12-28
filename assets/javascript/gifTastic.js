@@ -7,6 +7,7 @@ let currentTopic;
 // html templates
 const templates = {
   gifFigure: '<figure><div class="gif-container"><img></div><figcaption>Rating: <span class="rating"></span></figcaption></figure>',
+  topicButton: '<button class="u-full-width button-primary"></button>',
 };
 
 // Giphy handles making requests to the Giphy API.
@@ -125,6 +126,29 @@ Giffery.prototype.clear = function clearGiffery() {
   });
 };
 
+function TopicButton(topic, html) {
+  this.topic = topic;
+  this.$ = $(html).text(topic);
+  this.$.on('click', () => {
+    if (this.onClick) this.onClick(this.topic);
+  });
+}
+
+function TopicButtons(selector, topicArr) {
+  this.$ = $(selector);
+  this.buttons = [];
+  topicArr.forEach((element) => {
+    this.add(element);
+  });
+}
+TopicButtons.prototype.add = function addTopicButton(topicButton) {
+  this.$.append(topicButton.$);
+  this.buttons.push(topicButton);
+};
+TopicButtons.prototype.setTopic = function setTopic() {
+
+};
+
 /*
   topicButtons object
   ------------------------------------------------------------------
@@ -132,7 +156,7 @@ Giffery.prototype.clear = function clearGiffery() {
   Contains properties and methods for adding topics and interacting
   with the topic buttons.
 */
-var topicButtons = {
+/* var topicButtons = {
   topics,
   addTopic(topic) {
     // Adds a new topic to topics
@@ -177,10 +201,8 @@ var topicButtons = {
       .text(topic)
       .attr('data-topic', topic);
   },
+  // Renders topic buttons from topics array
   render() {
-    // Renders topic buttons from topics array
-
-    let classes;
 
     // clear buttons
     $('#buttonBox').empty();
@@ -192,13 +214,16 @@ var topicButtons = {
         .appendTo('#buttonBox');
     });
   },
-};
+}; */
 
 $(document).ready(() => {
   const giffery = new Giffery('#giffery');
+  const topicButtons = topics.map((item) => {
+    return new TopicButton(item);
+  });
 
   // display topic buttons
-  topicButtons.render();
+  // topicButtons.render();
 
   // listen for click on #buttonBox
   $('#buttonBox').on('click', handleTopicSelection);
@@ -208,7 +233,7 @@ $(document).ready(() => {
     event.preventDefault();
 
     // get the topic from the form and add it to the buttons
-    topicButtons.addTopic($('#txtAddTopic').val());
+    // topicButtons.addTopic($('#txtAddTopic').val());
 
     // clear input from form
     $('#txtAddTopic').val('');
@@ -218,7 +243,7 @@ $(document).ready(() => {
   function handleTopicSelection(event) {
 
     // get the topic of the button that was clicked
-    const topic = topicButtons.getBtnTopic(event.target);
+    // const topic = topicButtons.getBtnTopic(event.target);
 
     // update currentTopic
     currentTopic = topic;
@@ -241,6 +266,6 @@ $(document).ready(() => {
             });
           });
     });
-    topicButtons.render();
+    // topicButtons.render();
   }
 });

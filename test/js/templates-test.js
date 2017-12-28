@@ -4,7 +4,10 @@ describe('Templates object',() => {
     expect(templates).to.have.property('gifFigure');
     expect(templates.gifFigure).to.be.a('string');
   });
-  describe('The gifFigure property', () => {
+  it('has a topicButton property', () => {
+    expect(templates).to.have.a.property('topicButton');
+  });
+  describe('gifFigure', () => {
     let $gifFigure = null;
     before(() => {
       $gifFigure = $(templates.gifFigure).appendTo($fixtures);
@@ -25,6 +28,11 @@ describe('Templates object',() => {
     it('has a div with the "gif-container" class', () => {
       const $div = $gifFigure.find('div.gif-container');
       expect($div.length).to.equal(1);
+    });
+  });
+  describe('topicButton', () => {
+    it('is a button element', () => {
+      expect($(templates.topicButton).is('button')).to.be.true;
     });
   });
 });
