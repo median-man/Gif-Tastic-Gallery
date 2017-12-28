@@ -146,7 +146,6 @@ TopicButton.prototype.selected = function isTopicButtonSelected(value) {
 
 function TopicButtons(selector, topicArr) {
   this.$ = $(selector);
-  console.log(this.$[0])
   this.buttons = [];
   topicArr.forEach((element) => {
     this.add(element);
@@ -155,6 +154,7 @@ function TopicButtons(selector, topicArr) {
 }
 TopicButtons.prototype.add = function addTopicButton(topicButton) {
   this.$.append(topicButton.$);
+  topicButton.onClick = this.setTopic.bind(this);
   this.buttons.push(topicButton);
 };
 TopicButtons.prototype.setTopic = function setTopic(topic) {
@@ -169,21 +169,25 @@ TopicButtons.prototype.setTopic = function setTopic(topic) {
 
 $(document).ready(() => {
   const giffery = new Giffery('#giffery');
-
-  // add buttons for initial topics
-  const topicButtons = topics.map((item) => {
-    return new TopicButton(item, templates.topicButton);
-  });
-  topicButtons.onClick(handleTopicSelection);
+  
+  // initialize topic buttons
+  const topicButtons = new TopicButtons(
+    '#buttonBox',
+    topics.map((item) => {
+      return new TopicButton(item, templates.topicButton);
+    })
+  );
+  topicButtons.onTopicChange = handleTopicSelection;
 
   // add a new button when add topic clicked
-  $('#btnAddTopic').on('click', () => {
+  $('#btnAddTopic').on('click', (event) => {
+    event.preventDefault();
     topicButtons.add(new TopicButton($('#txtAddTopic').val().trim(), templates.topicButton));
     $('#txtAddTopic').val('');
   });
 
   // Sends request to giphy api for gifs and renders them
-  function handleTopicSelection(topic) {    
+  function handleTopicSelection(topic) { 
     // helper to add the gifs from the data returned by the giphy api search
     let giphyData = null;
     function addGifs() {
@@ -204,7 +208,7 @@ $(document).ready(() => {
       .then((result) => {
         giphyData = result;
       })
-      .then(giffery.clear)
+      .then(giffery.clear.bind(giffery))
       .then(addGifs);
   }
 });
